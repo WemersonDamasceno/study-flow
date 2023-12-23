@@ -1,0 +1,81 @@
+name: Flutter Packages Workflow
+
+on:
+  //Serve como um switch case de entradas e saídas
+  workflow_call:
+    inputs:
+      coverage_excludes:
+        required: false
+        type: string
+        default: ""
+      flutter_channel:
+        required: false
+        type: string
+        default: "stable"
+      flutter_version:
+        required: false
+        type: string
+        default: ""
+      working_directory:
+        required: false
+        type: string
+        default: "."
+      min_coverage:
+        required: false
+        type: number
+        default: 60
+      runs_on:
+        required: false
+        type: string
+        default: "ubuntu-latest"
+
+    secrets:
+      ssh_private_key:
+        description: 'SSH private key'
+        required: false
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
+
+    runs-on: ${{ inputs.runs_on }}
+
+    steps:
+      - name: 🔄 Git checkout to new branch
+        uses: actions/checkout@v2
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v1.5.1
+        with:
+          channel: ${{ inputs.flutter_channel }}
+          version: ${{ inputs.flutter_version }}
+          cache: true
+
+      - name: 🔑 SSH Private Key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.ssh_private_key }}
+
+      - name: 📦 Install Dependencies
+        run: |
+          flutter pub global activate very_good_cli
+          very_good --analytics false
+          very_good packages get --recursive
+
+      - name: 🔍 Check Formatting
+        run: dart format --set-exit-if-changed lib test
+      
+      - name: 🕵️ Analyze
+        run: flutter analyze lib test
+
+      - name: 🧪 Run Tests
+        run: very_good test -j 1 --optimization --coverage
+        
+      - name: ✅ Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: ${{inputs.working_directory}}/coverage/lcov.info
+          exclude: ${{inputs.coverage_excludes}}
+          min_coverage: ${{inputs.min_coverage}}
