@@ -56,7 +56,7 @@ jobs:
     runs-on: ${{ inputs.runs_on }}
 
     steps:
-      - name: 🔄 Git checkout
+      - name: 🔄 Git Checkout
         uses: actions/checkout@v3
 
       - name: 🐦 Setup Flutter
