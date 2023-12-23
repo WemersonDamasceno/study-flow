@@ -1,4 +1,4 @@
-name: study_flow
+name: Deployment in app distribution
 
 on:
   pull-request:
@@ -18,18 +18,29 @@ jobs:
   verify-semantics-pull-request:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
 
-  build:
+  build-android:
     needs:
       [
         verify-flutter,
         verify-semantics-pull-request,
-      ]  
+      ] 
+
     runs-on: ubuntu-latest
 
     steps:
       - name: 🦾 Build Android APK
         run: flutter build appbundle 
+  
+  build-ois:
+    needs:
+      [
+        verify-flutter,
+        verify-semantics-pull-request,
+      ]
 
+    runs-on: macos-latest
+
+    steps:
       - name: 🍎 Build iOS IPA
         run: flutter build ios --no-codesign
         
