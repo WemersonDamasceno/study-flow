@@ -1,7 +1,7 @@
 name: Deployment in app distribution
 
-on:
-  pull-request:
+on: 
+  pull_request:
     branches:
       - master
 
@@ -28,6 +28,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: 🔄 Git Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ inputs.flutter_channel }}
+          flutter-version: ${{ inputs.flutter_version }}
+
+      # - name: 🔑 SSH Private Key
+      #   uses: webfactory/ssh-agent@v0.7.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.ssh_private_key }}
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
       - name: 🦾 Build Android APK
         run: flutter build appbundle 
   
@@ -41,6 +58,23 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: 🍎 Build iOS IPA
+      - name: 🔄 Git Checkout
+        uses: actions/checkout@v3
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ inputs.flutter_channel }}
+          flutter-version: ${{ inputs.flutter_version }}
+
+      # - name: 🔑 SSH Private Key
+      #   uses: webfactory/ssh-agent@v0.7.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.ssh_private_key }}
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      - name: 🍏 Build iOS IPA
         run: flutter build ios --no-codesign
         
