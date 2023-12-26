@@ -1,19 +1,22 @@
 name: Flutter Packages Workflow
 
 on:
-  //Serve como um switch case de entradas e saídas
   workflow_call:
     inputs:
+      concurrency:
+        required: false
+        type: number
+        default: 4
       coverage_excludes:
         required: false
         type: string
         default: ""
       flutter_channel:
-        required: false
+        required: true
         type: string
         default: "stable"
       flutter_version:
-        required: false
+        required: true
         type: string
         default: ""
       working_directory:
@@ -24,15 +27,25 @@ on:
         required: false
         type: number
         default: 60
+      test_optimization:
+        required: false
+        type: boolean
+        default: true
+      test_recursion:
+        required: false
+        type: boolean
+        default: false
+     
+      
       runs_on:
         required: false
         type: string
         default: "ubuntu-latest"
 
-    secrets:
-      ssh_private_key:
-        description: 'SSH private key'
-        required: false
+    # secrets:
+    #   ssh_private_key:
+    #     description: 'SSH private key'
+    #     required: false
 
 jobs:
   build:
@@ -43,26 +56,23 @@ jobs:
     runs-on: ${{ inputs.runs_on }}
 
     steps:
-      - name: 🔄 Git checkout to new branch
-        uses: actions/checkout@v2
+      - name: 🔄 Git checkout
+        uses: actions/checkout@v3
 
       - name: 🐦 Setup Flutter
-        uses: subosito/flutter-action@v1.5.1
+        uses: subosito/flutter-action@v2
         with:
           channel: ${{ inputs.flutter_channel }}
-          version: ${{ inputs.flutter_version }}
-          cache: true
+          flutter-version: ${{ inputs.flutter_version }}
 
-      - name: 🔑 SSH Private Key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.ssh_private_key }}
+      # - name: 🔑 SSH Private Key
+      #   uses: webfactory/ssh-agent@v0.7.0
+      #   with:
+      #     ssh-private-key: ${{ secrets.ssh_private_key }}
+
 
       - name: 📦 Install Dependencies
-        run: |
-          flutter pub global activate very_good_cli
-          very_good --analytics false
-          very_good packages get --recursive
+        run: flutter pub get
 
       - name: 🔍 Check Formatting
         run: dart format --set-exit-if-changed lib test
@@ -71,7 +81,7 @@ jobs:
         run: flutter analyze lib test
 
       - name: 🧪 Run Tests
-        run: very_good test -j 1 --optimization --coverage
+        run: flutter test --coverage
         
       - name: ✅ Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2

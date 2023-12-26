@@ -1,40 +1,31 @@
 name: study_flow
 
-//Qual evento eu quero escutar?
 on:
   push:
     branches:
-      - DEV-
+      - DEV-*
 
-//Qual ação eu quero executar?
 jobs:
   verify-flutter:
     uses: ./.github/workflows/flutter_package.yaml
     with:
-      channel: 'stable'
-      flutter-version: 3.10.6
-      min-coverage: 60
-    secrets:
-      ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      flutter_channel: 'stable'
+      flutter_version: '3.10.6'
+      min_coverage: 60
+    # secrets:
+    #   ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-  //Define um step
   verify-semantics-pull-request:
-    //Acessa um workflow de outro repositório
-    uses: VeryGoodOpenSource/very_good_workflow/.github/workflows/semantics_pull_request.yml@v1
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
 
-  
   build:
-    //Especifica que este trabalho depende da conclusão de outros trabalhos antes de ser iniciado
     needs:
       [
         verify-flutter,
-        verify-semantic-pull-request,
-      ]
-
-    //Define o sistema operacional que será usado para executar o trabalho
+        verify-semantics-pull-request,
+      ]  
     runs-on: ubuntu-latest
 
-    //Define as etapas que serão executadas como parte do trabalho
     steps:
       - name: noop
         run: echo 'noop'
