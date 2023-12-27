@@ -42,21 +42,16 @@ A camada de "data" consiste em uma implementação de "repository" (o contrato v
 │   │   └── repositories
 |   ├── rdos
 │   │   ├── bloc
-│   │   │   └── rdo_bloc.dart
-|   |   |   └── rdo_event.dart
-|   |   |   └── rdo_state.dart
+│   │   │   └── bloc.dart
+|   |   |   └── event.dart
+|   |   |   └── state.dart
 |   |   └── models
 |   |   |   └── models.dart
-|   |   |   └── rdo.dart
 │   │   └── view
-│   │   |   ├── rdo_page.dart
-│   │   |   └── rdo_list.dart
+│   │   |   ├── page.dart
 |   |   |   └── view.dart
 |   |   └── widgets
-|   |   |   └── bottom_loader.dart
-|   |   |   └── rdo_list_item.dart
-|   |   |   └── widgets.dart
-│   │   ├── rdo.dart
+|   |   |   └── widget.dart
 │   ├── app.dart
 │   └── main.dart
 ├── pubspec.lock
