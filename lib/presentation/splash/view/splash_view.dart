@@ -14,29 +14,25 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-  Future<Timer> startTime() async {
-    var duration = const Duration(seconds: 3);
-    return Timer(duration, navigationPage);
-  }
-
   void navigationPage() async {
     String? name = await SharedPref().read("name") as String?;
-    if (name != null) {
-      MaterialPageRoute(
-        builder: (context) => const SplashView(),
-      );
-    } else {
-      //Change to LoginView
-      MaterialPageRoute(
-        builder: (context) => const SplashView(),
-      );
-    }
+    Future.delayed(const Duration(seconds: 3), () {
+      if (name != null) {
+        MaterialPageRoute(
+          builder: (context) => const SplashView(),
+        );
+      } else {
+        MaterialPageRoute(
+          builder: (context) => const SplashView(),
+        );
+      }
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    startTime();
+    navigationPage();
   }
 
   @override
