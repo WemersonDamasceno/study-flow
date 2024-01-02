@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:study_flow/core/colors/study_flow_colors.dart';
+import 'package:study_flow/di/di.dart';
 import 'package:study_flow/presentation/splash/splash_imports.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await configureDependencies();
+
   runApp(const MyApp());
 }
 
