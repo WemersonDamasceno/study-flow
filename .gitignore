@@ -49,3 +49,6 @@ ios/Podfile.lock
 
 #VSCode
 .vscode
+
+#Coverage
+lcov.info
