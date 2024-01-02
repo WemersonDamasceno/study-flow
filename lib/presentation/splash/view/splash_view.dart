@@ -1,10 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:study_flow/core/colors/study_flow_colors.dart';
-import 'package:study_flow/core/icons/study_flow_icons.dart';
-import 'package:study_flow/core/utils/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:study_flow/core/enums/shared_pref_keys_enum.dart';
+import 'package:study_flow/core/enums/status_enum.dart';
+import 'package:study_flow/presentation/splash/bloc/get_user_in_local_storage_bloc.dart';
+import 'package:study_flow/presentation/splash/mixins/splash_mixin.dart';
+import 'package:study_flow/presentation/splash/widgets/error_screen_widget.dart';
+import 'package:study_flow/presentation/splash/widgets/success_screen_widget.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
@@ -13,54 +14,51 @@ class SplashView extends StatefulWidget {
   State<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends State<SplashView> {
-  void navigationPage() async {
-    String? name = await SharedPref().read("name") as String?;
-    Future.delayed(const Duration(seconds: 3), () {
-      if (name != null) {
-        MaterialPageRoute(
-          builder: (context) => const SplashView(),
-        );
-      } else {
-        MaterialPageRoute(
-          builder: (context) => const SplashView(),
-        );
-      }
-    });
-  }
+class _SplashViewState extends State<SplashView> with SplashMixin {
+  late GetUserInLocalStorageBloc _getUserInLocalStorageBloc;
 
   @override
   void initState() {
     super.initState();
-    navigationPage();
+
+    _getUserInLocalStorageBloc =
+        BlocProvider.of<GetUserInLocalStorageBloc>(context)
+          ..add(GetUserInLocalStorage(
+            key: SharedPrefKeysEnum.token.name,
+          ));
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: size.width * .5,
-                child: LottieBuilder.asset(
-                  StudyFlowIcons().animationIcon,
-                ),
-              ),
-              Text(
-                "Study Flow",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: StudyFlowColors().secondary,
-                ),
-              ),
-            ],
-          ),
+        child:
+            BlocConsumer<GetUserInLocalStorageBloc, GetUserInLocalStorageState>(
+          bloc: _getUserInLocalStorageBloc,
+          listener: (context, state) {
+            final stateIsDifferentFromError =
+                state.status == StatusEnum.success ||
+                    state.status == StatusEnum.empty;
+
+            if (stateIsDifferentFromError) {
+              navigationPage(hasToken: stateIsDifferentFromError);
+            }
+          },
+          builder: (context, state) {
+            switch (state.status) {
+              case StatusEnum.error:
+                return const Center(
+                  child: ErrorScreenWidget(
+                    key: ValueKey("error_screen_widget"),
+                  ),
+                );
+
+              default:
+                return const SuccessScreenWidget(
+                  key: ValueKey("success_screen_widget"),
+                );
+            }
+          },
         ),
       ),
     );
