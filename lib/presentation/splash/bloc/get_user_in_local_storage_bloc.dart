@@ -34,6 +34,8 @@ class GetUserInLocalStorageBloc
         return emit(state.copyWith(status: StatusEnum.error));
       },
       (userEntity) {
+        emit(state.copyWith(status: StatusEnum.initial));
+
         return emit(state.copyWith(
           status: userEntity != null ? StatusEnum.success : StatusEnum.empty,
           userEntity: userEntity,

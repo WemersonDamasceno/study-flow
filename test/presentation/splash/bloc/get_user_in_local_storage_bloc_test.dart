@@ -37,6 +37,7 @@ void main() {
     act: (bloc) => bloc.add(const GetUserInLocalStorage(key: 'test_key')),
     expect: () => [
       const GetUserInLocalStorageState(status: StatusEnum.loading),
+      const GetUserInLocalStorageState(status: StatusEnum.initial),
       GetUserInLocalStorageState(
         status: StatusEnum.success,
         userEntity: tUserEntity,
@@ -56,6 +57,7 @@ void main() {
     act: (bloc) => bloc.add(const GetUserInLocalStorage(key: 'test_key')),
     expect: () => [
       const GetUserInLocalStorageState(status: StatusEnum.loading),
+      const GetUserInLocalStorageState(status: StatusEnum.initial),
       const GetUserInLocalStorageState(
         status: StatusEnum.empty,
         userEntity: null,
