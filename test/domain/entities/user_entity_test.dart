@@ -4,46 +4,39 @@ import 'package:test/test.dart';
 void main() {
   const String userId = '1';
   const String userName = 'John Doe';
-  const String userEmail = 'john.doe@example.com';
 
   group('UserEntity', () {
     test('should create a UserEntity instance', () {
       // Arrange
-      const userEntity =
-          UserEntity(id: userId, name: userName, email: userEmail);
+      const userEntity = UserEntity(id: userId, nameUser: userName);
 
       // Assert
       expect(userEntity, isA<UserEntity>());
       expect(userEntity.id, equals(userId));
-      expect(userEntity.name, equals(userName));
-      expect(userEntity.email, equals(userEmail));
+      expect(userEntity.nameUser, equals(userName));
     });
 
     test('copyWith should create a new UserEntity with updated values', () {
       // Arrange
-      const originalUserEntity =
-          UserEntity(id: userId, name: userName, email: userEmail);
+      const originalUserEntity = UserEntity(id: userId, nameUser: userName);
 
       // Act
       final updatedUserEntity =
-          originalUserEntity.copyWith(name: 'Updated Name');
+          originalUserEntity.copyWith(nameUser: 'Updated Name');
 
       // Assert
       expect(updatedUserEntity, isA<UserEntity>());
       expect(updatedUserEntity.id, equals(userId));
-      expect(updatedUserEntity.name, equals('Updated Name'));
-      expect(updatedUserEntity.email, equals(userEmail));
+      expect(updatedUserEntity.nameUser, equals('Updated Name'));
     });
 
     test('props should contain id, name, and email', () {
       // Arrange
-      const userEntity =
-          UserEntity(id: userId, name: userName, email: userEmail);
+      const userEntity = UserEntity(id: userId, nameUser: userName);
 
       // Assert
       expect(userEntity.props, contains(userId));
       expect(userEntity.props, contains(userName));
-      expect(userEntity.props, contains(userEmail));
     });
 
     test(
@@ -52,8 +45,7 @@ void main() {
       // Arrange
       const userEntity = UserEntity(
         id: userId,
-        name: userName,
-        email: userEmail,
+        nameUser: userName,
       );
 
       // Act
