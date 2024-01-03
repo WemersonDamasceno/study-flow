@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:study_flow/presentation/splash/bloc/get_user_in_local_storage_bloc.dart';
+import 'package:study_flow/presentation/splash/bloc/get_token_in_local_storage_bloc.dart';
 
 void main() {
   test('GetUserInLocalStorageEvent props', () {

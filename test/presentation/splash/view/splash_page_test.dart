@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
 import 'package:study_flow/di/di.dart';
-import 'package:study_flow/presentation/splash/bloc/get_user_in_local_storage_bloc.dart';
+import 'package:study_flow/presentation/splash/bloc/get_token_in_local_storage_bloc.dart';
 import 'package:study_flow/presentation/splash/splash_imports.dart';
 
 class MockGetUserInLocalStorageBloc
