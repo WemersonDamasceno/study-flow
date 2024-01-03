@@ -15,7 +15,7 @@ class SuccessScreenWidget extends StatelessWidget {
           SizedBox(
             width: size.width * .5,
             child: LottieBuilder.asset(
-              StudyFlowIcons().animationIcon,
+              StudyFlowIcons.animationIcon,
             ),
           ),
           Text(
@@ -23,7 +23,7 @@ class SuccessScreenWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: StudyFlowColors().secondary,
+              color: StudyFlowColors.secondary,
             ),
           ),
         ],
