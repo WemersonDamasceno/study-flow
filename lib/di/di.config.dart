@@ -23,8 +23,14 @@ import 'package:study_flow/domain/repositories/user/user_repository.dart'
     as _i8;
 import 'package:study_flow/domain/usecases/get_token_in_local_storage_usecase.dart'
     as _i10;
-import 'package:study_flow/presentation/splash/bloc/get_user_in_local_storage_bloc.dart'
+import 'package:study_flow/domain/usecases/remove_token_in_local_storage_usecase.dart'
     as _i11;
+import 'package:study_flow/domain/usecases/save_token_in_local_storage_usecase.dart'
+    as _i12;
+import 'package:study_flow/presentation/create_account/bloc/save_token/save_token_bloc.dart'
+    as _i14;
+import 'package:study_flow/presentation/splash/bloc/get_token_in_local_storage_bloc.dart'
+    as _i13;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -48,10 +54,19 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i10.GetTokenInLocalStorageUsecase>(() =>
         _i10.GetTokenInLocalStorageUsecase(
             userRepository: gh<_i8.UserRepository>()));
-    gh.factory<_i11.GetUserInLocalStorageBloc>(() =>
-        _i11.GetUserInLocalStorageBloc(
+    gh.lazySingleton<_i11.RemoveTokenInLocalStorageUsecase>(() =>
+        _i11.RemoveTokenInLocalStorageUsecase(
+            userRepository: gh<_i8.UserRepository>()));
+    gh.lazySingleton<_i12.SaveTokenInLocalStorageUsecase>(() =>
+        _i12.SaveTokenInLocalStorageUsecase(
+            userRepository: gh<_i8.UserRepository>()));
+    gh.factory<_i13.GetTokenInLocalStorageBloc>(() =>
+        _i13.GetTokenInLocalStorageBloc(
             getUserInLocalStorageUsecase:
                 gh<_i10.GetTokenInLocalStorageUsecase>()));
+    gh.factory<_i14.SaveTokenBloc>(() => _i14.SaveTokenBloc(
+        saveTokenInLocalStorageUsecase:
+            gh<_i12.SaveTokenInLocalStorageUsecase>()));
     return this;
   }
 }
