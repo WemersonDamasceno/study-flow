@@ -1,10 +1,10 @@
 part of 'get_user_in_local_storage_bloc.dart';
 
-sealed class GetUserInLocalStorageEvent extends Equatable {
-  const GetUserInLocalStorageEvent();
+sealed class GetTokenInLocalStorageEvent extends Equatable {
+  const GetTokenInLocalStorageEvent();
 }
 
-class GetUserInLocalStorage extends GetUserInLocalStorageEvent {
+class GetUserInLocalStorage extends GetTokenInLocalStorageEvent {
   final String key;
 
   const GetUserInLocalStorage({required this.key});
