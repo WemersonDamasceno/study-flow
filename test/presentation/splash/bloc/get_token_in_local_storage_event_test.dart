@@ -18,11 +18,11 @@ void main() {
   });
 
   test('GetUserInLocalStorage extends GetUserInLocalStorageEvent', () {
-    const GetUserInLocalStorageEvent event = GetUserInLocalStorage(
+    const GetTokenInLocalStorageEvent event = GetUserInLocalStorage(
       key: 'test_key',
     );
 
-    expect(event, isA<GetUserInLocalStorageEvent>());
+    expect(event, isA<GetTokenInLocalStorageEvent>());
   });
 
   test('GetUserInLocalStorageEvent props', () {

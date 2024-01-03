@@ -1,41 +1,38 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
-import 'package:study_flow/domain/entities/user_entity.dart';
 import 'package:study_flow/presentation/splash/bloc/get_user_in_local_storage_bloc.dart';
 
-import '../../../mocks/user_mock.dart';
-
 void main() {
-  late UserEntity tUserEntity;
+  late String token;
 
   setUp(() {
-    tUserEntity = UserMock.entity;
+    token = "A3X-42G-M1NDTR1X-789";
   });
 
   test('GetUserInLocalStorageState props', () {
-    const state1 = GetUserInLocalStorageState();
-    const state2 = GetUserInLocalStorageState();
+    const state1 = GetTokenInLocalStorageState();
+    const state2 = GetTokenInLocalStorageState();
 
     expect(state1, state2);
     expect(state1.hashCode, state2.hashCode);
   });
 
   test('GetUserInLocalStorageState copyWith', () {
-    final state = GetUserInLocalStorageState(
+    final state = GetTokenInLocalStorageState(
       status: StatusEnum.success,
-      userEntity: tUserEntity,
+      token: token,
     );
 
     final copiedState = state.copyWith(status: StatusEnum.loading);
 
     expect(copiedState.status, equals(StatusEnum.loading));
-    expect(copiedState.userEntity, equals(tUserEntity));
+    expect(copiedState.token, equals(token));
   });
 
   test('GetUserInLocalStorageState copyWith no changes', () {
-    final state = GetUserInLocalStorageState(
+    final state = GetTokenInLocalStorageState(
       status: StatusEnum.success,
-      userEntity: tUserEntity,
+      token: token,
     );
 
     final copiedState = state.copyWith();
@@ -44,24 +41,24 @@ void main() {
   });
 
   test('GetUserInLocalStorageState copyWith with changes', () {
-    final state = GetUserInLocalStorageState(
+    final state = GetTokenInLocalStorageState(
       status: StatusEnum.success,
-      userEntity: tUserEntity,
+      token: token,
     );
 
     final copiedState = state.copyWith(
       status: StatusEnum.error,
-      userEntity: tUserEntity.copyWith(id: ''),
+      token: "123",
     );
 
     expect(copiedState.status, equals(StatusEnum.error));
-    expect(copiedState.userEntity!.id, isEmpty);
+    expect(copiedState.token, "123");
   });
 
   test('GetUserInLocalStorageState props', () {
-    final state = GetUserInLocalStorageState(
+    final state = GetTokenInLocalStorageState(
       status: StatusEnum.success,
-      userEntity: tUserEntity,
+      token: token,
     );
 
     expect(state.props, isNotEmpty);
