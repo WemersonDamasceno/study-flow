@@ -14,7 +14,7 @@ class ErrorScreenWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: StudyFlowColors().secondary,
+              color: StudyFlowColors.secondary,
             ),
           ),
         ],

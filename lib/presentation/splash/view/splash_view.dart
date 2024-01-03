@@ -36,12 +36,10 @@ class _SplashViewState extends State<SplashView> with SplashMixin {
             BlocConsumer<GetUserInLocalStorageBloc, GetUserInLocalStorageState>(
           bloc: _getUserInLocalStorageBloc,
           listener: (context, state) {
-            final stateIsDifferentFromError =
-                state.status == StatusEnum.success ||
-                    state.status == StatusEnum.empty;
+            final stateIsEmpty = state.status == StatusEnum.empty;
 
-            if (stateIsDifferentFromError) {
-              navigationPage(hasToken: stateIsDifferentFromError);
+            if (state.status == StatusEnum.success || stateIsEmpty) {
+              navigationPage(notHaveToken: stateIsEmpty, context: context);
             }
           },
           builder: (context, state) {
