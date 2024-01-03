@@ -6,22 +6,20 @@ void main() {
   group('UserModel', () {
     const String userId = '1';
     const String userName = 'John Doe';
-    const String userEmail = 'john.doe@example.com';
 
     test('should create a UserModel instance', () {
       // Arrange
-      const userModel = UserModel(id: userId, name: userName, email: userEmail);
+      const userModel = UserModel(id: userId, nameUser: userName);
 
       // Assert
       expect(userModel, isA<UserModel>());
       expect(userModel.id, equals(userId));
-      expect(userModel.name, equals(userName));
-      expect(userModel.email, equals(userEmail));
+      expect(userModel.nameUser, equals(userName));
     });
 
     test('fromJson should create a UserModel from JSON', () {
       // Arrange
-      final json = {'id': userId, 'name': userName, 'email': userEmail};
+      final json = {'id': userId, 'nameUser': userName};
 
       // Act
       final userModel = UserModel.fromJson(json);
@@ -29,13 +27,12 @@ void main() {
       // Assert
       expect(userModel, isA<UserModel>());
       expect(userModel.id, equals(userId));
-      expect(userModel.name, equals(userName));
-      expect(userModel.email, equals(userEmail));
+      expect(userModel.nameUser, equals(userName));
     });
 
     test('toJson should convert a UserModel to JSON', () {
       // Arrange
-      const userModel = UserModel(id: userId, name: userName, email: userEmail);
+      const userModel = UserModel(id: userId, nameUser: userName);
 
       // Act
       final json = userModel.toJson();
@@ -43,14 +40,12 @@ void main() {
       // Assert
       expect(json, isA<Map<String, dynamic>>());
       expect(json['id'], equals(userId));
-      expect(json['name'], equals(userName));
-      expect(json['email'], equals(userEmail));
+      expect(json['nameUser'], equals(userName));
     });
 
     test('fromEntity should create a UserModel from a UserEntity', () {
       // Arrange
-      const userEntity =
-          UserEntity(id: userId, name: userName, email: userEmail);
+      const userEntity = UserEntity(id: userId, nameUser: userName);
 
       // Act
       final userModel = UserModel.fromEntity(userEntity);
@@ -58,8 +53,7 @@ void main() {
       // Assert
       expect(userModel, isA<UserModel>());
       expect(userModel.id, equals(userId));
-      expect(userModel.name, equals(userName));
-      expect(userModel.email, equals(userEmail));
+      expect(userModel.nameUser, equals(userName));
     });
   });
 }

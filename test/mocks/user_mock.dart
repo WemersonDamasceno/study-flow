@@ -4,13 +4,11 @@ import 'package:study_flow/domain/entities/user_entity.dart';
 class UserMock {
   static UserModel get model => const UserModel(
         id: '123',
-        name: "Jhon Doe",
-        email: "jhon@email.com",
+        nameUser: "Jhon Doe",
       );
 
   static UserEntity get entity => UserEntity(
         id: model.id,
-        name: model.name,
-        email: model.email,
+        nameUser: model.nameUser,
       );
 }
