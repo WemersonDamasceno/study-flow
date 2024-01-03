@@ -25,6 +25,10 @@ void main() {
     );
   });
 
+  tearDown(() {
+    getUserInLocalStorageBloc.close();
+  });
+
   blocTest<GetUserInLocalStorageBloc, GetUserInLocalStorageState>(
     'emits [loading, success] state when GetUserInLocalStorage is successful',
     setUp: () {
