@@ -43,6 +43,7 @@ flutter:
   assets:
     - assets/animations/
     - assets/fonts/
+    - assets/icons/
     
   fonts:
     - family: Mplus1p
