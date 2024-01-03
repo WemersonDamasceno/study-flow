@@ -9,21 +9,21 @@ import 'package:study_flow/presentation/splash/bloc/get_user_in_local_storage_bl
 import 'package:study_flow/presentation/splash/splash_imports.dart';
 
 class MockGetUserInLocalStorageBloc
-    extends MockBloc<GetUserInLocalStorageEvent, GetUserInLocalStorageState>
-    implements GetUserInLocalStorageBloc {}
+    extends MockBloc<GetTokenInLocalStorageEvent, GetTokenInLocalStorageState>
+    implements GetTokenInLocalStorageBloc {}
 
 void main() {
   late Widget child;
-  late GetUserInLocalStorageBloc getUserInLocalStorageBloc;
+  late GetTokenInLocalStorageBloc getUserInLocalStorageBloc;
 
   setUp(() async {
     await getIt.reset();
 
     getUserInLocalStorageBloc = MockGetUserInLocalStorageBloc();
-    getIt.registerFactory<GetUserInLocalStorageBloc>(
+    getIt.registerFactory<GetTokenInLocalStorageBloc>(
         () => getUserInLocalStorageBloc);
 
-    child = BlocProvider<GetUserInLocalStorageBloc>(
+    child = BlocProvider<GetTokenInLocalStorageBloc>(
       create: (context) => getUserInLocalStorageBloc,
       child: const MaterialApp(
         home: SplashPage(),
@@ -34,7 +34,7 @@ void main() {
       (WidgetTester tester) async {
     //Arrange
     when(() => getUserInLocalStorageBloc.state).thenReturn(
-      const GetUserInLocalStorageState(
+      const GetTokenInLocalStorageState(
         status: StatusEnum.initial,
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:study_flow/core/enums/shared_pref_keys_enum.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
 import 'package:study_flow/data/datasources/shared_preferences/shared_preferences_datasource.dart';
 import 'package:study_flow/di/di.dart';
@@ -12,14 +13,16 @@ import 'package:study_flow/presentation/splash/splash_imports.dart';
 class MockSharedPref extends Mock implements SharedPrefDatasourceImpl {}
 
 class MockGetUserInLocalStorageBloc
-    extends MockBloc<GetUserInLocalStorageEvent, GetUserInLocalStorageState>
-    implements GetUserInLocalStorageBloc {}
+    extends MockBloc<GetTokenInLocalStorageEvent, GetTokenInLocalStorageState>
+    implements GetTokenInLocalStorageBloc {}
 
 void main() {
   late MockSharedPref mockSharedPref;
 
   late Widget child;
-  late GetUserInLocalStorageBloc getUserInLocalStorageBloc;
+  late GetTokenInLocalStorageBloc getUserInLocalStorageBloc;
+
+  const token = "A3X-42G-M1NDTR1X-789";
 
   setUp(() async {
     await getIt.reset();
@@ -27,10 +30,10 @@ void main() {
     getUserInLocalStorageBloc = MockGetUserInLocalStorageBloc();
     mockSharedPref = MockSharedPref();
 
-    getIt.registerFactory<GetUserInLocalStorageBloc>(
+    getIt.registerFactory<GetTokenInLocalStorageBloc>(
         () => getUserInLocalStorageBloc);
 
-    child = BlocProvider<GetUserInLocalStorageBloc>(
+    child = BlocProvider<GetTokenInLocalStorageBloc>(
       create: (context) => getUserInLocalStorageBloc,
       child: const MaterialApp(
         home: SplashView(),
@@ -41,9 +44,10 @@ void main() {
   testWidgets('SplashView should show to the SUCCESS screen',
       (WidgetTester tester) async {
     //Arrange
-    when(() => mockSharedPref.read("name")).thenAnswer((_) async => 'John Doe');
+    when(() => mockSharedPref.getToken(SharedPrefKeysEnum.token))
+        .thenAnswer((_) async => token);
     when(() => getUserInLocalStorageBloc.state).thenReturn(
-      const GetUserInLocalStorageState(
+      const GetTokenInLocalStorageState(
         status: StatusEnum.success,
       ),
     );
@@ -62,9 +66,10 @@ void main() {
   testWidgets('SplashView should show to the ERROR screen',
       (WidgetTester tester) async {
     //Arrange
-    when(() => mockSharedPref.read("name")).thenAnswer((_) async => 'John Doe');
+    when(() => mockSharedPref.getToken(SharedPrefKeysEnum.token))
+        .thenAnswer((_) async => 'John Doe');
     when(() => getUserInLocalStorageBloc.state).thenReturn(
-      const GetUserInLocalStorageState(
+      const GetTokenInLocalStorageState(
         status: StatusEnum.error,
       ),
     );
@@ -82,9 +87,10 @@ void main() {
   testWidgets('SplashView should navigate to LoginView when name is null',
       (WidgetTester tester) async {
     // Arrange
-    when(() => mockSharedPref.read("name")).thenAnswer((_) async => null);
+    when(() => mockSharedPref.getToken(SharedPrefKeysEnum.token))
+        .thenAnswer((_) async => null);
     when(() => getUserInLocalStorageBloc.state).thenReturn(
-      const GetUserInLocalStorageState(
+      const GetTokenInLocalStorageState(
         status: StatusEnum.empty,
       ),
     );
