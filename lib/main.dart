@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_flow/core/colors/study_flow_colors.dart';
+import 'package:study_flow/core/database_helper/database_helper.dart';
 import 'package:study_flow/core/routers/study_flow_routers.dart';
 import 'package:study_flow/di/di.dart';
 import 'package:study_flow/presentation/create_account/view/create_account_page.dart';
@@ -9,6 +10,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await configureDependencies();
+
+  await DatabaseHelper().configDatabase();
 
   runApp(const MyApp());
 }
