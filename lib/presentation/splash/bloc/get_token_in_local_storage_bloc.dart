@@ -5,8 +5,8 @@ import 'package:study_flow/core/enums/status_enum.dart';
 import 'package:study_flow/core/usecase/usecases.dart';
 import 'package:study_flow/domain/usecases/get_token_in_local_storage_usecase.dart';
 
-part 'get_user_in_local_storage_event.dart';
-part 'get_user_in_local_storage_state.dart';
+part 'get_token_in_local_storage_event.dart';
+part 'get_token_in_local_storage_state.dart';
 
 @injectable
 class GetTokenInLocalStorageBloc

@@ -6,7 +6,7 @@ import 'package:study_flow/core/enums/status_enum.dart';
 import 'package:study_flow/core/errors/failure.dart';
 import 'package:study_flow/core/usecase/usecases.dart';
 import 'package:study_flow/domain/usecases/get_token_in_local_storage_usecase.dart';
-import 'package:study_flow/presentation/splash/bloc/get_user_in_local_storage_bloc.dart';
+import 'package:study_flow/presentation/splash/bloc/get_token_in_local_storage_bloc.dart';
 
 class MockGetUserInLocalStorageUsecase extends Mock
     implements GetTokenInLocalStorageUsecase {}

@@ -7,7 +7,7 @@ import 'package:study_flow/core/enums/shared_pref_keys_enum.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
 import 'package:study_flow/data/datasources/shared_preferences/shared_preferences_datasource.dart';
 import 'package:study_flow/di/di.dart';
-import 'package:study_flow/presentation/splash/bloc/get_user_in_local_storage_bloc.dart';
+import 'package:study_flow/presentation/splash/bloc/get_token_in_local_storage_bloc.dart';
 import 'package:study_flow/presentation/splash/splash_imports.dart';
 
 class MockSharedPref extends Mock implements SharedPrefDatasourceImpl {}
