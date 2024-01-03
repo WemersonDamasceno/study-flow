@@ -2,30 +2,28 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
-import 'package:study_flow/domain/entities/user_entity.dart';
-import 'package:study_flow/domain/usecases/get_user_in_local_storage_usecase.dart';
+import 'package:study_flow/core/usecase/usecases.dart';
+import 'package:study_flow/domain/usecases/get_token_in_local_storage_usecase.dart';
 
 part 'get_user_in_local_storage_event.dart';
 part 'get_user_in_local_storage_state.dart';
 
 @injectable
-class GetUserInLocalStorageBloc
-    extends Bloc<GetUserInLocalStorageEvent, GetUserInLocalStorageState> {
-  final GetUserInLocalStorageUsecase _getUserInLocalStorageUsecase;
+class GetTokenInLocalStorageBloc
+    extends Bloc<GetTokenInLocalStorageEvent, GetTokenInLocalStorageState> {
+  final GetTokenInLocalStorageUsecase _getUserInLocalStorageUsecase;
 
-  GetUserInLocalStorageBloc(
-      {required GetUserInLocalStorageUsecase getUserInLocalStorageUsecase})
+  GetTokenInLocalStorageBloc(
+      {required GetTokenInLocalStorageUsecase getUserInLocalStorageUsecase})
       : _getUserInLocalStorageUsecase = getUserInLocalStorageUsecase,
-        super(const GetUserInLocalStorageState()) {
+        super(const GetTokenInLocalStorageState()) {
     on<GetUserInLocalStorage>(_getUserInLocalStorage);
   }
   void _getUserInLocalStorage(GetUserInLocalStorage event,
-      Emitter<GetUserInLocalStorageState> emit) async {
+      Emitter<GetTokenInLocalStorageState> emit) async {
     emit(state.copyWith(status: StatusEnum.loading));
 
-    final failureOrSuccess = await _getUserInLocalStorageUsecase(
-      GetUserInLocalParams(key: event.key),
-    );
+    final failureOrSuccess = await _getUserInLocalStorageUsecase(NoParams());
 
     await Future.delayed(const Duration(seconds: 3));
 
@@ -38,7 +36,7 @@ class GetUserInLocalStorageBloc
 
         emit(state.copyWith(
           status: userEntity != null ? StatusEnum.success : StatusEnum.empty,
-          userEntity: userEntity,
+          token: userEntity,
         ));
       },
     );
