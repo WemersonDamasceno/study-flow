@@ -40,7 +40,7 @@ A camada de "data" consiste em uma implementação de "repository" (o contrato v
 │   │   ├── entities
 |   |   └── usecases
 │   │   └── repositories
-|   ├── rdos
+|   ├── presentation
 │   │   ├── bloc
 │   │   │   └── bloc.dart
 |   |   |   └── event.dart
