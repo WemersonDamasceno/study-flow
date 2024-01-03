@@ -1,4 +1,4 @@
 class StudyFlowRouters {
-  final String splash = '/splash';
-  final String login = '/login';
+  static String splash = '/splash';
+  static String createAccount = "/create-account";
 }
