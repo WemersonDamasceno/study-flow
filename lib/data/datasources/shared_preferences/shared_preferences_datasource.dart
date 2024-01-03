@@ -1,55 +1,47 @@
-import 'dart:convert';
-
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:study_flow/data/models/user/user_model.dart';
+import 'package:study_flow/core/enums/shared_pref_keys_enum.dart';
 
 abstract class SharedPrefDatasource {
-  Future read(String key);
-  Future<void> save(String key, value);
-  Future<void> remove(String key);
+  Future<String?> getToken(SharedPrefKeysEnum key);
+  Future<bool> saveToken(SharedPrefKeysEnum key, value);
+  Future<bool> removeToken(SharedPrefKeysEnum key);
 }
 
 @Injectable(as: SharedPrefDatasource)
 class SharedPrefDatasourceImpl implements SharedPrefDatasource {
-  final SharedPreferencesImpl _sharedPreferencesImpl;
+  final SharedPreferences _sharedPreferences;
 
-  SharedPrefDatasourceImpl({
-    required SharedPreferencesImpl sharedPreferencesImpl,
-  }) : _sharedPreferencesImpl = sharedPreferencesImpl;
+  SharedPrefDatasourceImpl({required SharedPreferences sharedPreferences})
+      : _sharedPreferences = sharedPreferences;
 
   @override
-  Future read(String key) async {
+  Future<String?> getToken(SharedPrefKeysEnum key) async {
     try {
-      String? valueJson;
-      await _sharedPreferencesImpl.instance.then((value) {
-        valueJson = value.getString(key);
-      });
-
-      if (valueJson == null) return null;
-      final userMap = jsonDecode(valueJson!);
-      final userModel = UserModel.fromJson(userMap);
-      return userModel;
+      String? token = _sharedPreferences.getString(key.toString());
+      return token;
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<void> save(String key, value) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, json.encode(value));
+  Future<bool> saveToken(SharedPrefKeysEnum key, value) async {
+    try {
+      bool hasSaved = await _sharedPreferences.setString(key.toString(), value);
+      return hasSaved;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> remove(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove(key);
+  Future<bool> removeToken(SharedPrefKeysEnum key) async {
+    try {
+      bool hasRemoved = await _sharedPreferences.remove(key.toString());
+      return hasRemoved;
+    } catch (e) {
+      rethrow;
+    }
   }
-}
-
-@injectable
-class SharedPreferencesImpl {
-  Future<SharedPreferences> get instance async =>
-      await SharedPreferences.getInstance();
 }
