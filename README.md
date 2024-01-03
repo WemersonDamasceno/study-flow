@@ -27,37 +27,6 @@ Ele conterá apenas a lógica de negócios principal (use cases) e objetos de ne
 
 A camada de "data" consiste em uma implementação de "repository" (o contrato vem da camada de "domain") e "data sources" - uma geralmente é para obter dados "remote" (API) e a outra para armazenar em cache esses dados. O repository é onde você decide se deseja retornar dados atualizados ou armazenados em cache, quando armazená-los em cache e assim por diante.
 
-
-## Estrutura do projeto
-
-```
-├── lib
-|   ├── data
-│   │   ├── datasources
-|   |   └── models
-│   │   └── repositories
-|   ├── domain
-│   │   ├── entities
-|   |   └── usecases
-│   │   └── repositories
-|   ├── presentation
-│   │   ├── bloc
-│   │   │   └── bloc.dart
-|   |   |   └── event.dart
-|   |   |   └── state.dart
-|   |   └── models
-|   |   |   └── models.dart
-│   │   └── view
-│   │   |   ├── page.dart
-|   |   |   └── view.dart
-|   |   └── widgets
-|   |   |   └── widget.dart
-│   ├── app.dart
-│   └── main.dart
-├── pubspec.lock
-├── pubspec.yaml
-```
-
 ### O que esta incluso no projeto? 📦
 
 
