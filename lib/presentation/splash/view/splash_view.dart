@@ -15,14 +15,14 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> with SplashMixin {
-  late GetUserInLocalStorageBloc _getUserInLocalStorageBloc;
+  late GetTokenInLocalStorageBloc _getUserInLocalStorageBloc;
 
   @override
   void initState() {
     super.initState();
 
     _getUserInLocalStorageBloc =
-        BlocProvider.of<GetUserInLocalStorageBloc>(context)
+        BlocProvider.of<GetTokenInLocalStorageBloc>(context)
           ..add(GetUserInLocalStorage(
             key: SharedPrefKeysEnum.token.name,
           ));
@@ -32,8 +32,8 @@ class _SplashViewState extends State<SplashView> with SplashMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child:
-            BlocConsumer<GetUserInLocalStorageBloc, GetUserInLocalStorageState>(
+        child: BlocConsumer<GetTokenInLocalStorageBloc,
+            GetTokenInLocalStorageState>(
           bloc: _getUserInLocalStorageBloc,
           listener: (context, state) {
             final stateIsEmpty = state.status == StatusEnum.empty;
