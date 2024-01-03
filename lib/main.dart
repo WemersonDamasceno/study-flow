@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:study_flow/core/colors/study_flow_colors.dart';
+import 'package:study_flow/core/routers/study_flow_routers.dart';
 import 'package:study_flow/di/di.dart';
+import 'package:study_flow/presentation/create_account/view/create_account_page.dart';
 import 'package:study_flow/presentation/splash/splash_imports.dart';
 
 void main() async {
@@ -19,14 +21,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Study Flow',
+      home: const SplashPage(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: StudyFlowColors().primary,
+          seedColor: StudyFlowColors.primary,
         ),
         fontFamily: 'MPLUS1p',
         useMaterial3: true,
       ),
-      home: const SplashPage(),
+      routes: {
+        StudyFlowRouters.splash: (context) => const SplashPage(),
+        StudyFlowRouters.createAccount: (context) => const CreateAccountPage(),
+      },
     );
   }
 }
