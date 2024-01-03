@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:study_flow/presentation/splash/view/splash_view.dart';
+import 'package:study_flow/core/routers/study_flow_routers.dart';
 
 mixin SplashMixin {
-  void navigationPage({required bool hasToken}) async {
-    if (hasToken) {
-      MaterialPageRoute(
-        builder: (context) => const SplashView(),
-      );
+  void navigationPage(
+      {required bool notHaveToken, required BuildContext context}) async {
+    if (notHaveToken) {
+      Navigator.popAndPushNamed(context, StudyFlowRouters.createAccount);
       return;
     }
-    MaterialPageRoute(
-      builder: (context) => const SplashView(),
-    );
+    Navigator.popAndPushNamed(context, StudyFlowRouters.splash);
   }
 }
