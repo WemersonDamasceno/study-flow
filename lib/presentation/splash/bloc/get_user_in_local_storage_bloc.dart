@@ -31,12 +31,12 @@ class GetUserInLocalStorageBloc
 
     failureOrSuccess.fold(
       (failure) {
-        return emit(state.copyWith(status: StatusEnum.error));
+        emit(state.copyWith(status: StatusEnum.error));
       },
       (userEntity) {
         emit(state.copyWith(status: StatusEnum.initial));
 
-        return emit(state.copyWith(
+        emit(state.copyWith(
           status: userEntity != null ? StatusEnum.success : StatusEnum.empty,
           userEntity: userEntity,
         ));
