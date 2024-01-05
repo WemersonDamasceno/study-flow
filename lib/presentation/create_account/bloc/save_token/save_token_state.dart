@@ -9,4 +9,12 @@ class SaveTokenState extends Equatable {
 
   @override
   List<Object> get props => [status];
+
+  SaveTokenState copyWith({
+    StatusEnum? status,
+  }) {
+    return SaveTokenState(
+      status: status ?? this.status,
+    );
+  }
 }

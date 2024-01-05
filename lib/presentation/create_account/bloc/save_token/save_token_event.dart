@@ -2,9 +2,6 @@ part of 'save_token_bloc.dart';
 
 sealed class SaveTokenEvent extends Equatable {
   const SaveTokenEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class SaveToken extends SaveTokenEvent {
