@@ -1,10 +1,24 @@
 part of 'save_user_local_storage_bloc.dart';
 
-sealed class SaveUserLocalStorageState extends Equatable {
-  const SaveUserLocalStorageState();
+class SaveUserLocalStorageState extends Equatable {
+  final StatusEnum status;
+  final UserEntity? userEntity;
+
+  const SaveUserLocalStorageState({
+    this.status = StatusEnum.initial,
+    this.userEntity,
+  });
 
   @override
-  List<Object> get props => [];
-}
+  List<Object?> get props => [status, userEntity];
 
-final class SaveUserLocalStorageInitial extends SaveUserLocalStorageState {}
+  SaveUserLocalStorageState copyWith({
+    StatusEnum? status,
+    UserEntity? userEntity,
+  }) {
+    return SaveUserLocalStorageState(
+      status: status ?? this.status,
+      userEntity: userEntity ?? this.userEntity,
+    );
+  }
+}
