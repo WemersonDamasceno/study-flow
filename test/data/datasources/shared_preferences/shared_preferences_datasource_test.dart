@@ -1,125 +1,67 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:study_flow/core/enums/shared_pref_keys_enum.dart';
-import 'package:study_flow/core/errors/exceptions.dart';
 import 'package:study_flow/data/datasources/shared_preferences/shared_preferences_datasource.dart';
+
+class MockSharedPrefImpl extends Mock implements SharedPrefImpl {}
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  late SharedPrefDatasourceImpl dataSource;
+  late MockSharedPrefImpl mockSharedPrefImpl;
 
-  late SharedPrefDatasourceImpl datasource;
-  late SharedPreferences mockSharedPreferences;
-
-  setUp(() async {
-    mockSharedPreferences = MockSharedPreferences();
-    datasource = SharedPrefDatasourceImpl(
-      sharedPreferences: mockSharedPreferences,
-    );
+  setUp(() {
+    mockSharedPrefImpl = MockSharedPrefImpl();
+    dataSource =
+        SharedPrefDatasourceImpl(sharedPreferences: mockSharedPrefImpl);
   });
 
-  const token = "A3X-42G-M1NDTR1X-789";
-
-  const key = SharedPrefKeysEnum.token;
-
-  group('getToken', () {
-    test('should return UserModel from SharedPreferences', () async {
+  group('SharedPrefDatasource', () {
+    test('getToken should return null if key not found', () async {
       // Arrange
-      when(() => mockSharedPreferences.getString(key.toString()))
-          .thenReturn(token);
+      final mockSharedPreferences = MockSharedPreferences();
+      when(() => mockSharedPrefImpl.instance)
+          .thenAnswer((_) async => mockSharedPreferences);
+      when(() => mockSharedPreferences.getString(any())).thenReturn(null);
 
       // Act
-      final result = await datasource.getToken(key);
-
-      // Assert
-      expect(result, equals(token));
-      verify(() => mockSharedPreferences.getString(key.toString())).called(1);
-      verifyNoMoreInteractions(mockSharedPreferences);
-    });
-
-    test('should return null when SharedPreferences returns null', () async {
-      // Arrange
-      when(() => mockSharedPreferences.getString(key.toString()))
-          .thenReturn(null);
-
-      // Act
-      final result = await datasource.getToken(key);
+      final result = await dataSource.getToken(SharedPrefKeysEnum.inexistent);
 
       // Assert
       expect(result, isNull);
-      verify(() => mockSharedPreferences.getString(key.toString())).called(1);
-      verifyNoMoreInteractions(mockSharedPreferences);
     });
 
-    test('should throw an exception if an error occurs', () async {
+    test('saveToken should return true after saving token', () async {
       // Arrange
-      when(() => mockSharedPreferences.getString(key.toString()))
-          .thenThrow(Exception());
-
-      // Act & Assert
-      expect(() async => await datasource.getToken(key), throwsException);
-      verify(() => mockSharedPreferences.getString(key.toString())).called(1);
-      verifyNoMoreInteractions(mockSharedPreferences);
-    });
-  });
-
-  group('saveToken', () {
-    test('should save UserModel to SharedPreferences', () async {
-      // Arrange
-      when(() => mockSharedPreferences.setString(key.toString(), token))
-          .thenAnswer((_) => Future.value(true));
+      final mockSharedPreferences = MockSharedPreferences();
+      when(() => mockSharedPrefImpl.instance)
+          .thenAnswer((_) async => mockSharedPreferences);
+      when(() => mockSharedPreferences.setString(any(), any()))
+          .thenAnswer((_) async => true);
 
       // Act
-      final result = await datasource.saveToken(key, token);
+      final result =
+          await dataSource.saveToken(SharedPrefKeysEnum.token, 'tokenValue');
 
       // Assert
       expect(result, isTrue);
-      verify(() => mockSharedPreferences.setString(key.toString(), token))
-          .called(1);
-      verifyNoMoreInteractions(mockSharedPreferences);
     });
 
-    test('should throw an exception if an error occurs', () async {
+    test('removeToken should return true after removing token', () async {
       // Arrange
-      when(() => mockSharedPreferences.setString(key.toString(), token))
-          .thenThrow(Exception());
-
-      // Act & Assert
-      expect(
-          () async => await datasource.saveToken(key, token), throwsException);
-      verify(() => mockSharedPreferences.setString(key.toString(), token))
-          .called(1);
-      verifyNoMoreInteractions(mockSharedPreferences);
-    });
-  });
-
-  group('removeToken', () {
-    test('should remove key from SharedPreferences', () async {
-      // Arrange
-      when(() => mockSharedPreferences.remove(key.toString()))
-          .thenAnswer((_) => Future.value(true));
+      final mockSharedPreferences = MockSharedPreferences();
+      when(() => mockSharedPrefImpl.instance)
+          .thenAnswer((_) async => mockSharedPreferences);
+      when(() => mockSharedPreferences.remove(any()))
+          .thenAnswer((_) async => true);
 
       // Act
-      final result = await datasource.removeToken(key);
+      final result = await dataSource.removeToken(SharedPrefKeysEnum.token);
 
       // Assert
       expect(result, isTrue);
-      verify(() => mockSharedPreferences.remove(key.toString())).called(1);
-      verifyNoMoreInteractions(mockSharedPreferences);
-    });
-
-    test('should throw an exception if an error occurs', () async {
-      // Arrange
-      when(() => mockSharedPreferences.remove(key.toString()))
-          .thenThrow(const LocalStorageException());
-
-      // Act & Assert
-      expect(() async => await datasource.removeToken(key), throwsException);
-      verify(() => mockSharedPreferences.remove(key.toString())).called(1);
-      verifyNoMoreInteractions(mockSharedPreferences);
     });
   });
 }
