@@ -2,7 +2,7 @@ import 'package:study_flow/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   const UserModel({
-    required String id,
+    String? id,
     required String nameUser,
   }) : super(
           id: id,
