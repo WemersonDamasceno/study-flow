@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_flow/core/enums/shared_pref_keys_enum.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
+import 'package:study_flow/core/routers/study_flow_routers.dart';
 import 'package:study_flow/presentation/splash/bloc/get_token_in_local_storage_bloc.dart';
-import 'package:study_flow/presentation/splash/mixins/splash_mixin.dart';
 import 'package:study_flow/presentation/splash/widgets/error_screen_widget.dart';
 import 'package:study_flow/presentation/splash/widgets/success_screen_widget.dart';
 
@@ -14,7 +14,7 @@ class SplashView extends StatefulWidget {
   State<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends State<SplashView> with SplashMixin {
+class _SplashViewState extends State<SplashView> {
   late GetTokenInLocalStorageBloc _getUserInLocalStorageBloc;
 
   @override
@@ -29,6 +29,11 @@ class _SplashViewState extends State<SplashView> with SplashMixin {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -39,7 +44,12 @@ class _SplashViewState extends State<SplashView> with SplashMixin {
             final stateIsEmpty = state.status == StatusEnum.empty;
 
             if (state.status == StatusEnum.success || stateIsEmpty) {
-              navigationPage(notHaveToken: stateIsEmpty, context: context);
+              Navigator.popAndPushNamed(
+                context,
+                stateIsEmpty
+                    ? StudyFlowRouters.createAccount
+                    : StudyFlowRouters.home,
+              );
             }
           },
           builder: (context, state) {
