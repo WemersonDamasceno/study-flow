@@ -55,5 +55,18 @@ void main() {
       expect(userModel.id, equals(userId));
       expect(userModel.nameUser, equals(userName));
     });
+
+    test('copy should copy a UserModel', () {
+      // Arrange
+      const userModel = UserModel(id: userId, nameUser: userName);
+
+      // Act
+      final copyUserModel = userModel.copy();
+
+      // Assert
+      expect(copyUserModel, isA<UserModel>());
+      expect(copyUserModel.id, equals(userId));
+      expect(copyUserModel.nameUser, equals(userName));
+    });
   });
 }
