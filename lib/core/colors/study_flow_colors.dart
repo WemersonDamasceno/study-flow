@@ -9,4 +9,8 @@ class StudyFlowColors {
 
   static Color errorPure = const Color(0xFFD65745);
   static Color errorLight = const Color(0xFFFF6F5B);
+
+  static Color highPriority = const Color(0xFFD65745);
+  static Color mediumPriority = const Color(0xFFE8A200);
+  static Color lowPriority = const Color(0xFF55B938);
 }
