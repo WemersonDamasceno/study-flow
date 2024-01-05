@@ -10,15 +10,17 @@ abstract class SharedPrefDatasource {
 
 @Injectable(as: SharedPrefDatasource)
 class SharedPrefDatasourceImpl implements SharedPrefDatasource {
-  final SharedPreferences _sharedPreferences;
+  final SharedPrefImpl _sharedPreferences;
 
-  SharedPrefDatasourceImpl({required SharedPreferences sharedPreferences})
+  SharedPrefDatasourceImpl({required SharedPrefImpl sharedPreferences})
       : _sharedPreferences = sharedPreferences;
 
   @override
   Future<String?> getToken(SharedPrefKeysEnum key) async {
     try {
-      String? token = _sharedPreferences.getString(key.toString());
+      final SharedPreferences sharedPreferences =
+          await _sharedPreferences.instance;
+      String? token = sharedPreferences.getString(key.toString());
       return token;
     } catch (e) {
       rethrow;
@@ -28,7 +30,9 @@ class SharedPrefDatasourceImpl implements SharedPrefDatasource {
   @override
   Future<bool> saveToken(SharedPrefKeysEnum key, value) async {
     try {
-      bool hasSaved = await _sharedPreferences.setString(key.toString(), value);
+      final SharedPreferences sharedPreferences =
+          await _sharedPreferences.instance;
+      bool hasSaved = await sharedPreferences.setString(key.toString(), value);
       return hasSaved;
     } catch (e) {
       rethrow;
@@ -38,10 +42,18 @@ class SharedPrefDatasourceImpl implements SharedPrefDatasource {
   @override
   Future<bool> removeToken(SharedPrefKeysEnum key) async {
     try {
-      bool hasRemoved = await _sharedPreferences.remove(key.toString());
+      final SharedPreferences sharedPreferences =
+          await _sharedPreferences.instance;
+      bool hasRemoved = await sharedPreferences.remove(key.toString());
       return hasRemoved;
     } catch (e) {
       rethrow;
     }
   }
+}
+
+@injectable
+class SharedPrefImpl {
+  Future<SharedPreferences> get instance async =>
+      await SharedPreferences.getInstance();
 }
