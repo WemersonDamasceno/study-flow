@@ -23,6 +23,7 @@ dependencies:
   path: ^1.8.3
   shared_preferences: ^2.2.2
   sqflite: ^2.3.0
+  percent_indicator: ^4.2.3
   
 
 
@@ -51,4 +52,6 @@ flutter:
   fonts:
     - family: Mplus1p
       fonts:
-        - asset: assets/fonts/MPLUS1p.ttf
+        - asset: assets/fonts/MPLUS1p-Regular.ttf
+        - asset: assets/fonts/MPLUS1p-Bold.ttf
+          weight: 700
