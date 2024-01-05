@@ -1,32 +1,31 @@
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:study_flow/core/database_helper/database_helper.dart';
 import 'package:study_flow/core/errors/exceptions.dart';
 import 'package:study_flow/data/models/user/user_model.dart';
 
 abstract class SqliteDataSource {
   Future<UserModel> createUser({required UserModel user});
-
   Future<UserModel> updateUser({required UserModel user});
-
-  Future<bool> deleteUser(String idUser);
-
+  Future<bool> deleteUser({required String idUser});
   Future<UserModel> getUserById({required String idUser});
 }
 
 @Injectable(as: SqliteDataSource)
 class SqliteDatasourceImpl implements SqliteDataSource {
-  final Database _database;
-
   SqliteDatasourceImpl({
-    required Database database,
-  }) : _database = database;
+    required DatabaseHelper databaseHelper,
+  }) : _databaseHelper = databaseHelper;
+
+  final DatabaseHelper _databaseHelper;
 
   @override
   Future<UserModel> createUser({
     required UserModel user,
   }) async {
     try {
-      final id = await _database.insert(
+      final Database database = await _databaseHelper.instance;
+      final id = await database.insert(
         'user',
         user.toJson(),
       );
@@ -48,7 +47,8 @@ class SqliteDatasourceImpl implements SqliteDataSource {
     required UserModel user,
   }) async {
     try {
-      final id = await _database.update(
+      final Database database = await _databaseHelper.instance;
+      final id = await database.update(
         'user',
         user.toJson(),
         where: "id = ?",
@@ -68,9 +68,10 @@ class SqliteDatasourceImpl implements SqliteDataSource {
   }
 
   @override
-  Future<bool> deleteUser(String idUser) async {
+  Future<bool> deleteUser({required String idUser}) async {
     try {
-      final id = await _database.delete(
+      final Database database = await _databaseHelper.instance;
+      final id = await database.delete(
         'user',
         where: "id = ?",
         whereArgs: [idUser],
@@ -91,7 +92,8 @@ class SqliteDatasourceImpl implements SqliteDataSource {
   @override
   Future<UserModel> getUserById({required String idUser}) async {
     try {
-      final result = await _database.query(
+      final Database database = await _databaseHelper.instance;
+      final result = await database.query(
         'user',
         where: "id = ?",
         whereArgs: [idUser],
