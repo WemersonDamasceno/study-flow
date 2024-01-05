@@ -12,3 +12,12 @@ class SharedPrefFailure extends Failure {
   @override
   List<Object?> get props => [message];
 }
+
+class SqliteFailure extends Failure {
+  final String message;
+
+  const SqliteFailure({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
