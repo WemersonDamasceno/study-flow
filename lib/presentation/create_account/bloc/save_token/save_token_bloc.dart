@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
-import 'package:study_flow/domain/usecases/save_token_in_local_storage_usecase.dart';
+import 'package:study_flow/domain/usecases/token/save_token_in_local_storage_usecase.dart';
 
 part 'save_token_event.dart';
 part 'save_token_state.dart';
