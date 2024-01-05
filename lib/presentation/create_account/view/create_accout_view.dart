@@ -83,7 +83,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                           return Padding(
                             padding: const EdgeInsets.all(20),
                             child: ButtonMainWidget(
-                              onPressed: () => onPressedButtonCreateAccout,
+                              onPressed: () => onPressedButtonCreateAccout(),
                               child: Visibility(
                                 visible: state.status == StatusEnum.loading,
                                 replacement: const Text('Criar Conta'),
@@ -127,13 +127,15 @@ class _CreateAccountViewState extends State<CreateAccountView> {
     );
   }
 
-  onPressedButtonCreateAccout() {
+  onPressedButtonCreateAccout() async {
     //Start loading button
     _buttonManagerStatusBloc.add(
       const ButtonManagerStatus(
         status: StatusEnum.loading,
       ),
     );
+
+    await Future.delayed(const Duration(seconds: 2));
 
     //Save user in local storage
     _saveUserLocalStorageBloc.add(
