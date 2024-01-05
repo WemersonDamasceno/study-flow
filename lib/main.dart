@@ -4,14 +4,15 @@ import 'package:study_flow/core/database_helper/database_helper.dart';
 import 'package:study_flow/core/routers/study_flow_routers.dart';
 import 'package:study_flow/di/di.dart';
 import 'package:study_flow/presentation/create_account/view/create_account_page.dart';
+import 'package:study_flow/presentation/home/view/home_page.dart';
 import 'package:study_flow/presentation/splash/splash_imports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await configureDependencies();
-
   await DatabaseHelper().configDatabase();
+
+  await configureDependencies();
 
   runApp(const MyApp());
 }
@@ -33,8 +34,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        StudyFlowRouters.splash: (context) => const SplashPage(),
         StudyFlowRouters.createAccount: (context) => const CreateAccountPage(),
+        StudyFlowRouters.home: (context) => const HomePage(),
       },
     );
   }
