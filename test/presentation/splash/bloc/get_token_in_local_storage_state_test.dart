@@ -3,10 +3,10 @@ import 'package:study_flow/core/enums/status_enum.dart';
 import 'package:study_flow/presentation/splash/bloc/get_token_in_local_storage_bloc.dart';
 
 void main() {
-  late String token;
+  late String tokenUser;
 
   setUp(() {
-    token = "A3X-42G-M1NDTR1X-789";
+    tokenUser = "A3X-42G-M1NDTR1X-789";
   });
 
   test('GetUserInLocalStorageState props', () {
@@ -20,19 +20,19 @@ void main() {
   test('GetUserInLocalStorageState copyWith', () {
     final state = GetTokenInLocalStorageState(
       status: StatusEnum.success,
-      token: token,
+      token: tokenUser,
     );
 
     final copiedState = state.copyWith(status: StatusEnum.loading);
 
     expect(copiedState.status, equals(StatusEnum.loading));
-    expect(copiedState.token, equals(token));
+    expect(copiedState.token, equals(tokenUser));
   });
 
   test('GetUserInLocalStorageState copyWith no changes', () {
     final state = GetTokenInLocalStorageState(
       status: StatusEnum.success,
-      token: token,
+      token: tokenUser,
     );
 
     final copiedState = state.copyWith();
@@ -43,7 +43,7 @@ void main() {
   test('GetUserInLocalStorageState copyWith with changes', () {
     final state = GetTokenInLocalStorageState(
       status: StatusEnum.success,
-      token: token,
+      token: tokenUser,
     );
 
     final copiedState = state.copyWith(
@@ -58,7 +58,7 @@ void main() {
   test('GetUserInLocalStorageState props', () {
     final state = GetTokenInLocalStorageState(
       status: StatusEnum.success,
-      token: token,
+      token: tokenUser,
     );
 
     expect(state.props, isNotEmpty);

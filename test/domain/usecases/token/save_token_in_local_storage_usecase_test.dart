@@ -11,7 +11,7 @@ void main() {
   late SaveTokenInLocalStorageUsecase usecase;
   late MockUserRepository mockUserRepository;
 
-  const token = "A3X-42G-M1NDTR1X-789";
+  const tokenUser = "A3X-42G-M1NDTR1X-789";
 
   setUp(() {
     mockUserRepository = MockUserRepository();
@@ -23,32 +23,32 @@ void main() {
   group('GetUserInLocalStorageUsecase', () {
     test('should get user from repository', () async {
       // Arrange
-      when(() => mockUserRepository.saveToken(token))
+      when(() => mockUserRepository.saveToken(tokenUser))
           .thenAnswer((_) async => const Right(true));
 
       // Act
       final result = await usecase(const SaveTokenInLocalStorageParams(
-        token: token,
+        token: tokenUser,
       ));
 
       // Assert
       expect(result, equals(const Right(true)));
-      verify(() => mockUserRepository.saveToken(token)).called(1);
+      verify(() => mockUserRepository.saveToken(tokenUser)).called(1);
     });
 
     test('should return a failure if repository call fails', () async {
       // Arrange
-      when(() => mockUserRepository.saveToken(token)).thenAnswer(
+      when(() => mockUserRepository.saveToken(tokenUser)).thenAnswer(
           (_) async => const Left(SharedPrefFailure(message: 'Error')));
 
       // Act
       final result = await usecase(const SaveTokenInLocalStorageParams(
-        token: token,
+        token: tokenUser,
       ));
 
       // Assert
       expect(result, equals(const Left(SharedPrefFailure(message: 'Error'))));
-      verify(() => mockUserRepository.saveToken(token)).called(1);
+      verify(() => mockUserRepository.saveToken(tokenUser)).called(1);
     });
   });
 }
