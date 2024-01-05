@@ -4,11 +4,13 @@ import 'package:study_flow/core/colors/study_flow_colors.dart';
 class InputFormWidget extends StatelessWidget {
   final String label;
   final String hintText;
+  final TextEditingController controller;
 
   const InputFormWidget({
     Key? key,
     required this.label,
     required this.hintText,
+    required this.controller,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class InputFormWidget extends StatelessWidget {
               ),
             ),
             child: TextFormField(
+              controller: controller,
               cursorColor: StudyFlowColors.secondary,
               decoration: InputDecoration(
                 labelStyle: const TextStyle(fontSize: 20),
