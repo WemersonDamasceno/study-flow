@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_flow/core/colors/study_flow_colors.dart';
@@ -22,7 +24,7 @@ mixin HomeMixin {
       showDragHandle: true,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        TagPriorityEnum tagSelected = TagPriorityEnum.high;
+        TagPriorityEnum tagPriorityEnum = TagPriorityEnum.high;
 
         return SizedBox(
           height: size.height * 0.75,
@@ -74,6 +76,8 @@ mixin HomeMixin {
                 BlocBuilder<SelectTagPriorityBloc, SelectTagPriorityState>(
                   bloc: selectTagPriorityBloc,
                   builder: (context, state) {
+                    final tagSelected = state.tagSelectedEnum;
+                    tagPriorityEnum = tagSelected;
                     return Row(
                       children: [
                         InkWell(
@@ -135,7 +139,9 @@ mixin HomeMixin {
                       Text("Adicionar Pomodoro"),
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    log("tagPriorityEnum $tagPriorityEnum");
+                  },
                 ),
                 const SizedBox(height: 20),
                 ButtonMainWidget(

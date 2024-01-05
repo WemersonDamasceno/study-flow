@@ -5,6 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
 import 'package:study_flow/core/errors/failure.dart';
 import 'package:study_flow/core/usecase/usecases.dart';
+import 'package:study_flow/di/di.dart';
 import 'package:study_flow/domain/usecases/token/get_token_in_local_storage_usecase.dart';
 import 'package:study_flow/presentation/splash/bloc/get_token_in_local_storage_bloc.dart';
 
@@ -15,16 +16,23 @@ void main() {
   late GetTokenInLocalStorageUsecase mockUsecase;
   late GetTokenInLocalStorageBloc getUserInLocalStorageBloc;
 
-  const token = "A3X-42G-M1NDTR1X-789";
+  const tokenUser = "123";
 
-  setUp(() {
+  setUp(() async {
     mockUsecase = MockGetUserInLocalStorageUsecase();
     getUserInLocalStorageBloc = GetTokenInLocalStorageBloc(
       getUserInLocalStorageUsecase: mockUsecase,
     );
+
+    await getIt.reset();
+    getIt.registerLazySingleton<GetTokenInLocalStorageUsecase>(
+      () => mockUsecase,
+    );
+    getIt.registerFactory<GetTokenInLocalStorageBloc>(
+        () => getUserInLocalStorageBloc);
   });
 
-  tearDown(() {
+  tearDownAll(() {
     getUserInLocalStorageBloc.close();
   });
 
@@ -32,7 +40,7 @@ void main() {
     'emits [loading, success] state when GetUserInLocalStorage is successful',
     setUp: () {
       when(() => mockUsecase(NoParams()))
-          .thenAnswer((_) => Future.value(const Right(token)));
+          .thenAnswer((_) => Future.value(const Right(tokenUser)));
     },
     wait: const Duration(seconds: 3),
     build: () => getUserInLocalStorageBloc,
@@ -42,7 +50,7 @@ void main() {
       const GetTokenInLocalStorageState(status: StatusEnum.initial),
       const GetTokenInLocalStorageState(
         status: StatusEnum.success,
-        token: token,
+        token: tokenUser,
       )
     ],
   );
@@ -53,9 +61,9 @@ void main() {
       when(() => mockUsecase(NoParams()))
           .thenAnswer((_) => Future.value(const Right(null)));
     },
-    wait: const Duration(seconds: 3),
     build: () => getUserInLocalStorageBloc,
     act: (bloc) => bloc.add(const GetUserInLocalStorage(key: 'test_key')),
+    wait: const Duration(seconds: 3),
     expect: () => [
       const GetTokenInLocalStorageState(status: StatusEnum.loading),
       const GetTokenInLocalStorageState(status: StatusEnum.initial),

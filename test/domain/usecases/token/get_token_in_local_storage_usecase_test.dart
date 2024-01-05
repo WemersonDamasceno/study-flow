@@ -17,19 +17,19 @@ void main() {
     usecase = GetTokenInLocalStorageUsecase(userRepository: mockUserRepository);
   });
 
-  const token = "A3X-42G-M1NDTR1X-789";
+  const tokenUser = "A3X-42G-M1NDTR1X-789";
 
   group('GetUserInLocalStorageUsecase', () {
     test('should get user from repository', () async {
       // Arrange
       when(() => mockUserRepository.getToken())
-          .thenAnswer((_) async => const Right(token));
+          .thenAnswer((_) async => const Right(tokenUser));
 
       // Act
       final result = await usecase(NoParams());
 
       // Assert
-      expect(result, equals(const Right(token)));
+      expect(result, equals(const Right(tokenUser)));
       verify(() => mockUserRepository.getToken()).called(1);
     });
 

@@ -18,7 +18,7 @@ void main() {
   late SharedPrefDatasource mockUserLocalDataSource;
   late SqliteDataSource mockSqliteDataSource;
 
-  const token = "A3X-42G-M1NDTR1X-789";
+  const tokenUser = "A3X-42G-M1NDTR1X-789";
 
   setUp(() {
     mockUserLocalDataSource = MockSharedPrefDatasource();
@@ -34,13 +34,13 @@ void main() {
       // Arrange
 
       when(() => mockUserLocalDataSource.getToken(SharedPrefKeysEnum.token))
-          .thenAnswer((_) async => token);
+          .thenAnswer((_) async => tokenUser);
 
       // Act
       final result = await userRepository.getToken();
 
       // Assert
-      expect(result, equals(const Right(token)));
+      expect(result, equals(const Right(tokenUser)));
       verify(() => mockUserLocalDataSource.getToken(SharedPrefKeysEnum.token))
           .called(1);
       verifyNoMoreInteractions(mockUserLocalDataSource);
