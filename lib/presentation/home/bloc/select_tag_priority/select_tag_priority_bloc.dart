@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:study_flow/core/enums/tags_priority_enum.dart';
 
 part 'select_tag_priority_event.dart';
 part 'select_tag_priority_state.dart';
