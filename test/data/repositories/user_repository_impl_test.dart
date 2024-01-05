@@ -4,22 +4,29 @@ import 'package:mocktail/mocktail.dart';
 import 'package:study_flow/core/enums/shared_pref_keys_enum.dart';
 import 'package:study_flow/core/errors/exceptions.dart';
 import 'package:study_flow/core/errors/failure.dart';
+import 'package:study_flow/data/datasources/local_storage/user_datasource.dart';
 import 'package:study_flow/data/datasources/shared_preferences/shared_preferences_datasource.dart';
 import 'package:study_flow/data/repositories/user_repository_impl.dart';
 import 'package:study_flow/domain/repositories/user/user_repository.dart';
 
 class MockSharedPrefDatasource extends Mock implements SharedPrefDatasource {}
 
+class MockSqliteDatasource extends Mock implements SqliteDataSource {}
+
 void main() {
   late UserRepository userRepository;
   late SharedPrefDatasource mockUserLocalDataSource;
+  late SqliteDataSource mockSqliteDataSource;
 
   const token = "A3X-42G-M1NDTR1X-789";
 
   setUp(() {
     mockUserLocalDataSource = MockSharedPrefDatasource();
-    userRepository =
-        UserRepositoryImpl(userLocalDataSource: mockUserLocalDataSource);
+    mockSqliteDataSource = MockSqliteDatasource();
+    userRepository = UserRepositoryImpl(
+      sharedPreferencesDataSource: mockUserLocalDataSource,
+      sqliteDataSource: mockSqliteDataSource,
+    );
   });
 
   group('getToken', () {
