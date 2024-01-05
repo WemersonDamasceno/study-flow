@@ -1,18 +1,20 @@
 import 'package:flutter/services.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+@injectable
 class DatabaseHelper {
-  static final Database instance = DatabaseHelper().configDatabase();
+  Future<Database> get instance async => await configDatabase();
 
-  configDatabase() async {
+  Future<Database> configDatabase() async {
     const databaseName = 'studyflow_database.db';
     final databaseIsExists = await databaseExists(
       join(await getDatabasesPath(), databaseName),
     );
 
     if (databaseIsExists) {
-      return;
+      return await _initDatabase(databaseName);
     }
 
     //Open database
