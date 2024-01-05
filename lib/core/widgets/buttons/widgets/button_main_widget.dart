@@ -4,11 +4,17 @@ import 'package:study_flow/core/colors/study_flow_colors.dart';
 class ButtonMainWidget extends StatefulWidget {
   final Widget child;
   final VoidCallback onPressed;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final Color? borderColor;
 
   const ButtonMainWidget({
     Key? key,
     required this.child,
     required this.onPressed,
+    this.backgroundColor,
+    this.textColor,
+    this.borderColor,
   }) : super(key: key);
 
   @override
@@ -26,15 +32,21 @@ class _ButtonMainWidgetState extends State<ButtonMainWidget> {
     final size = MediaQuery.of(context).size;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: StudyFlowColors.secondary,
-        foregroundColor: Colors.white,
-        textStyle: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
         minimumSize: Size(size.width, 50),
+        backgroundColor: widget.backgroundColor ?? StudyFlowColors.secondary,
+        foregroundColor: widget.textColor ?? Colors.white,
+        textStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(7),
+          side: widget.borderColor != null
+              ? BorderSide(
+                  color: widget.borderColor!,
+                  width: 2,
+                )
+              : BorderSide.none,
         ),
       ),
       onPressed: () {
