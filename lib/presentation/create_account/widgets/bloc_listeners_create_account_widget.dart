@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_flow/core/enums/status_enum.dart';
 import 'package:study_flow/core/routers/study_flow_routers.dart';
 import 'package:study_flow/core/session/session.dart';
-import 'package:study_flow/core/utils/generate_token.dart';
 import 'package:study_flow/presentation/create_account/bloc/save_token/save_token_bloc.dart';
 import 'package:study_flow/presentation/create_account/bloc/save_user_local_storage/save_user_local_storage_bloc.dart';
 
@@ -33,10 +32,8 @@ class BlocListenersCreateAccountWidget extends StatelessWidget {
               //Save user in session
               session.userEntity = state.userEntity;
 
-              //Generate token
-              saveTokenBloc.add(SaveToken(
-                token: generateToken(userName),
-              ));
+              //Save token
+              saveTokenBloc.add(SaveToken(token: userName));
             }
           },
         ),
