@@ -15,7 +15,7 @@ void main() {
 
   test('SaveUserLocalStorageEvent props with different key', () {
     final event1 = SaveUserLocalStorage(userEntity: user);
-    final event2 = SaveUserLocalStorage(userEntity: user.copyWith(id: '23'));
+    final event2 = SaveUserLocalStorage(userEntity: user.copyWith(id: 23));
 
     expect(event1, isNot(event2));
   });

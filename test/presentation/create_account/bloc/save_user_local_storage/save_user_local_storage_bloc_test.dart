@@ -47,10 +47,13 @@ void main() {
       return saveUserLocalStorageBloc;
     },
     act: (bloc) => bloc.add(SaveUserLocalStorage(userEntity: userEntity)),
-    expect: () => const [
-      SaveUserLocalStorageState(status: StatusEnum.loading),
-      SaveUserLocalStorageState(status: StatusEnum.initial),
-      SaveUserLocalStorageState(status: StatusEnum.success),
+    expect: () => [
+      const SaveUserLocalStorageState(status: StatusEnum.loading),
+      const SaveUserLocalStorageState(status: StatusEnum.initial),
+      SaveUserLocalStorageState(
+        status: StatusEnum.success,
+        userEntity: userEntity,
+      ),
     ],
   );
 }

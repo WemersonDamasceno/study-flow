@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class UserEntity extends Equatable {
-  final String? id;
+  final int? id;
   final String nameUser;
 
   const UserEntity({
@@ -9,7 +9,7 @@ class UserEntity extends Equatable {
     required this.nameUser,
   });
 
-  UserEntity copyWith({String? id, String? nameUser}) {
+  UserEntity copyWith({int? id, String? nameUser}) {
     return UserEntity(
       id: id ?? this.id,
       nameUser: nameUser ?? this.nameUser,

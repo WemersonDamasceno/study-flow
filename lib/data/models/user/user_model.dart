@@ -2,7 +2,7 @@ import 'package:study_flow/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   const UserModel({
-    String? id,
+    int? id,
     required String nameUser,
   }) : super(
           id: id,
@@ -11,7 +11,7 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as String,
+      id: json['id'] as int?,
       nameUser: json['nameUser'] as String,
     );
   }
@@ -30,8 +30,8 @@ class UserModel extends UserEntity {
     );
   }
 
-  copy({
-    String? id,
+  UserModel copy({
+    int? id,
     String? nameUser,
   }) {
     return UserModel(

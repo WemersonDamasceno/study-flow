@@ -19,24 +19,26 @@ class SqliteDatasourceImpl implements SqliteDataSource {
 
   final DatabaseHelper _databaseHelper;
 
+  final int resultFailure = 0;
+
   @override
   Future<UserModel> createUser({
     required UserModel user,
   }) async {
     try {
       final Database database = await _databaseHelper.instance;
-      final id = await database.insert(
+      final result = await database.insert(
         'user',
         user.toJson(),
       );
 
-      if (id == 0) {
+      if (result == resultFailure) {
         throw const LocalStorageException(
           message: "Error to create user",
         );
       }
 
-      return Future.value(user.copy(id: id.toString()));
+      return Future.value(user.copy(id: result));
     } catch (e) {
       rethrow;
     }
@@ -48,20 +50,20 @@ class SqliteDatasourceImpl implements SqliteDataSource {
   }) async {
     try {
       final Database database = await _databaseHelper.instance;
-      final id = await database.update(
+      final result = await database.update(
         'user',
         user.toJson(),
         where: "id = ?",
         whereArgs: [user.id],
       );
 
-      if (id == 0) {
+      if (result == resultFailure) {
         throw const LocalStorageException(
           message: "Error to update user",
         );
       }
 
-      return Future.value(user.copy(id: id.toString()));
+      return Future.value(user.copy(id: result));
     } catch (e) {
       rethrow;
     }
@@ -71,13 +73,13 @@ class SqliteDatasourceImpl implements SqliteDataSource {
   Future<bool> deleteUser({required String idUser}) async {
     try {
       final Database database = await _databaseHelper.instance;
-      final id = await database.delete(
+      final result = await database.delete(
         'user',
         where: "id = ?",
         whereArgs: [idUser],
       );
 
-      if (id == 0) {
+      if (result == resultFailure) {
         throw const LocalStorageException(
           message: "Error to delete user",
         );
@@ -95,7 +97,7 @@ class SqliteDatasourceImpl implements SqliteDataSource {
       final Database database = await _databaseHelper.instance;
       final result = await database.query(
         'user',
-        where: "id = ?",
+        where: "nameUser = ?",
         whereArgs: [idUser],
       );
 

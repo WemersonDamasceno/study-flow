@@ -6,7 +6,7 @@ import 'package:study_flow/core/errors/exceptions.dart';
 import 'package:study_flow/core/errors/failure.dart';
 import 'package:study_flow/data/datasources/local_storage/user_datasource.dart';
 import 'package:study_flow/data/datasources/shared_preferences/shared_preferences_datasource.dart';
-import 'package:study_flow/data/repositories/user_repository_impl.dart';
+import 'package:study_flow/data/repositories/user/user_repository_impl.dart';
 import 'package:study_flow/domain/repositories/user/user_repository.dart';
 
 class MockSharedPrefDatasource extends Mock implements SharedPrefDatasource {}

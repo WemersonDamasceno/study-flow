@@ -29,7 +29,8 @@ void main() {
       () => mockUsecase,
     );
     getIt.registerFactory<GetTokenInLocalStorageBloc>(
-        () => getUserInLocalStorageBloc);
+      () => getUserInLocalStorageBloc,
+    );
   });
 
   tearDownAll(() {
