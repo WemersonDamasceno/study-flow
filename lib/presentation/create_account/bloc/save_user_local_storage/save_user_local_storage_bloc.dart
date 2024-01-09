@@ -35,7 +35,10 @@ class SaveUserLocalStorageBloc
       },
       (success) {
         emit(const SaveUserLocalStorageState(status: StatusEnum.initial));
-        emit(const SaveUserLocalStorageState(status: StatusEnum.success));
+        emit(SaveUserLocalStorageState(
+          status: StatusEnum.success,
+          userEntity: success,
+        ));
       },
     );
   }
