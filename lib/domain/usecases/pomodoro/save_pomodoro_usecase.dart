@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:study_flow/core/errors/failure.dart';
 import 'package:study_flow/core/usecase/usecases.dart';
@@ -20,8 +21,11 @@ class SavePomodoroUsecase implements UseCase<bool, SavePomodoroUsecaseParams> {
   }
 }
 
-class SavePomodoroUsecaseParams {
+class SavePomodoroUsecaseParams extends Equatable {
   final PomodoroEntity pomodoroEntity;
 
-  SavePomodoroUsecaseParams({required this.pomodoroEntity});
+  const SavePomodoroUsecaseParams({required this.pomodoroEntity});
+
+  @override
+  List<Object?> get props => [pomodoroEntity];
 }

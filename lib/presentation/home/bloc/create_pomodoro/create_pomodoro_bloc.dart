@@ -27,9 +27,10 @@ class CreatePomodoroBloc
     final result = await _savePomodoroUsecase(
       SavePomodoroUsecaseParams(pomodoroEntity: event.pomodoroEntity),
     );
-    result.fold(
-      (failure) => emit(state.copyWith(status: StatusEnum.error)),
-      (success) => emit(state.copyWith(status: StatusEnum.success)),
-    );
+
+    emit(result.fold(
+      (failure) => state.copyWith(status: StatusEnum.error),
+      (success) => state.copyWith(status: StatusEnum.success),
+    ));
   }
 }
