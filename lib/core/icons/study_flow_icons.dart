@@ -4,4 +4,6 @@ class StudyFlowIcons {
   static String animationIcon = 'assets/animations/animation_icon.json';
   static String animationDontHaveData =
       'assets/animations/animation_dont_have_data.json';
+
+  static String emptyPomodoro = "assets/animations/empty_pomodoro.json";
 }
