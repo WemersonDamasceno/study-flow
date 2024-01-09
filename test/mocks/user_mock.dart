@@ -3,7 +3,7 @@ import 'package:study_flow/domain/entities/user_entity.dart';
 
 class UserMock {
   static UserModel get model => const UserModel(
-        id: '123',
+        id: 123,
         nameUser: "Jhon Doe",
       );
 
