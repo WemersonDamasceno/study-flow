@@ -79,11 +79,11 @@ mixin HomeMixin {
   String getButtonText(ButtonState buttonState) {
     switch (buttonState) {
       case ButtonState.init:
-        return "Iniciar pomodoro";
+        return "Iniciar Pomodoro";
       case ButtonState.pause:
-        return "Pausar pomodoro";
+        return "Pausar Pomodoro";
       case ButtonState.resume:
-        return "Continuar pomodoro";
+        return "Continuar Pomodoro";
       case ButtonState.initBreak:
         return "Iniciar Descanso";
       case ButtonState.pauseBreak:

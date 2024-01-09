@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_flow/core/colors/study_flow_colors.dart';
 import 'package:study_flow/core/session/session.dart';
+import 'package:study_flow/core/sounds/study_flow_sounds.dart';
 import 'package:study_flow/core/utils/get_first_name.dart';
 import 'package:study_flow/core/utils/get_initials_name.dart';
 import 'package:study_flow/core/widgets/buttons/widgets/button_main_widget.dart';
@@ -51,10 +53,13 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
 
   Timer? _timer;
 
+  late AudioPlayer _player;
+
   @override
   void initState() {
     super.initState();
 
+    _player = AudioPlayer();
     _timerTotal = convertNumberInMinutes(1);
 
     widget.changeValueTimerBloc.add(
@@ -64,74 +69,6 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
     );
 
     subTitle = "$qtdRepeat/${widget.pomodoroEntity.quantityRepeat} repetições";
-  }
-
-  void startCountDown() {
-    if (_timer != null && _timer!.isActive) {
-      _timer!.cancel();
-
-      buttonState = ButtonState.pause;
-    } else if (_timer != null && _timer!.isActive == false) {
-      buttonState = ButtonState.resume;
-    }
-
-    widget.managerButtonMainBloc.add(
-      ManagerButtonMain(
-        buttonState: buttonState,
-        isShotBreak: isShortBreak,
-      ),
-    );
-
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (buttonState == ButtonState.pause ||
-          buttonState == ButtonState.pauseBreak) {
-        timer.cancel();
-        return;
-      }
-
-      if (_timerTotal > 0) {
-        _timerTotal--;
-        widget.changeValueTimerBloc.add(
-          ChangeValueTimerEventIncrement(
-            value: _timerTotal,
-          ),
-        );
-      } else {
-        timer.cancel();
-
-        if (isShortBreak) {
-          buttonState = ButtonState.endBreak;
-          isShortBreak = false;
-          setState(() {
-            _timerTotal = convertNumberInMinutes(1);
-            subTitle =
-                "$qtdRepeat/${widget.pomodoroEntity.quantityRepeat} repetições";
-          });
-
-          widget.managerButtonMainBloc.add(
-            ManagerButtonMain(
-              buttonState: buttonState,
-              isShotBreak: isShortBreak,
-            ),
-          );
-        } else {
-          setState(() {
-            qtdRepeat++;
-            isShortBreak = true;
-            buttonState = ButtonState.end;
-
-            widget.managerButtonMainBloc.add(
-              ManagerButtonMain(
-                buttonState: buttonState,
-                isShotBreak: isShortBreak,
-              ),
-            );
-            _timerTotal = convertNumberInMinutes(1);
-            subTitle = "Pausa curta";
-          });
-        }
-      }
-    });
   }
 
   @override
@@ -191,30 +128,68 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
                           ManagerButtonMainState>(
                         bloc: widget.managerButtonMainBloc,
                         builder: (context, state) {
-                          return ButtonMainWidget(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.play_arrow),
-                                const SizedBox(width: 10),
-                                Text(
-                                  getButtonText(state.buttonState),
+                          switch (state.buttonState) {
+                            case ButtonState.init:
+                            case ButtonState.initBreak:
+                            case ButtonState.resume:
+                            case ButtonState.resumeBreak:
+                              return ButtonMainWidget(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.play_arrow),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      getButtonText(state.buttonState),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            onPressed: () {
-                              startCountDown();
-                            },
-                          );
+                                onPressed: () {
+                                  startCountDown();
+                                },
+                              );
+
+                            default:
+                              return InkWell(
+                                onTap: () => startCountDown(),
+                                child: TextWithBorderWidget(
+                                  borderWidth: 2,
+                                  radius: 7,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.pause),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        getButtonText(state.buttonState),
+                                        style: TextStyle(
+                                          color: StudyFlowColors.secondary,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                          }
                         },
                       )),
                   const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextWithBorderWidget(
-                      text: widget.pomodoroEntity.title,
-                    ),
+                        radius: 7,
+                        child: Text(
+                          widget.pomodoroEntity.title,
+                          style: TextStyle(
+                            color: StudyFlowColors.secondary,
+                            fontSize: 16,
+                          ),
+                        )),
                   ),
                   const SizedBox(height: 30),
                   Row(
@@ -260,5 +235,78 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
         ),
       ),
     );
+  }
+
+  void startCountDown() {
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
+
+      buttonState = ButtonState.pause;
+    } else if (_timer != null && _timer!.isActive == false) {
+      buttonState = ButtonState.resume;
+    }
+
+    widget.managerButtonMainBloc.add(
+      ManagerButtonMain(
+        buttonState: buttonState,
+        isShotBreak: isShortBreak,
+      ),
+    );
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (buttonState == ButtonState.pause ||
+          buttonState == ButtonState.pauseBreak) {
+        timer.cancel();
+        return;
+      }
+
+      if (_timerTotal > 0) {
+        _timerTotal--;
+        widget.changeValueTimerBloc.add(
+          ChangeValueTimerEventIncrement(
+            value: _timerTotal,
+          ),
+        );
+      } else {
+        timer.cancel();
+
+        _player.play(
+          AssetSource(StudyFlowSounds.alarm),
+          volume: 1,
+        );
+
+        if (isShortBreak) {
+          buttonState = ButtonState.endBreak;
+          isShortBreak = false;
+          setState(() {
+            _timerTotal = convertNumberInMinutes(1);
+            subTitle =
+                "$qtdRepeat/${widget.pomodoroEntity.quantityRepeat} repetições";
+          });
+
+          widget.managerButtonMainBloc.add(
+            ManagerButtonMain(
+              buttonState: buttonState,
+              isShotBreak: isShortBreak,
+            ),
+          );
+        } else {
+          setState(() {
+            qtdRepeat++;
+            isShortBreak = true;
+            buttonState = ButtonState.end;
+
+            widget.managerButtonMainBloc.add(
+              ManagerButtonMain(
+                buttonState: buttonState,
+                isShotBreak: isShortBreak,
+              ),
+            );
+            _timerTotal = convertNumberInMinutes(1);
+            subTitle = "Pausa curta";
+          });
+        }
+      }
+    });
   }
 }

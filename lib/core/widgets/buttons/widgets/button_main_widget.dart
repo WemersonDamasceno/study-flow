@@ -34,6 +34,7 @@ class _ButtonMainWidgetState extends State<ButtonMainWidget> {
       style: ElevatedButton.styleFrom(
         minimumSize: Size(size.width, 50),
         backgroundColor: widget.backgroundColor ?? StudyFlowColors.secondary,
+        disabledBackgroundColor: StudyFlowColors.successLight,
         foregroundColor: widget.textColor ?? Colors.white,
         textStyle: const TextStyle(
           fontWeight: FontWeight.bold,

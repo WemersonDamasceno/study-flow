@@ -62,6 +62,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: BlocListenersHomeWidget(
         createPomodoroBloc: _createPomodoroBloc,
         getAllPomodoroBloc: _getAllPomodoroBloc,
@@ -94,7 +95,7 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
                 changeValueTimerBloc: _changeValueTimerBloc,
                 createPomodoroBloc: _createPomodoroBloc,
                 quantityController: _quantityController,
-                pomodoroEntity: state.pomodoros!.first,
+                pomodoroEntity: state.pomodoros!.last,
                 session: _session,
               );
             }

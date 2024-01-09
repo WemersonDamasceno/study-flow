@@ -64,6 +64,9 @@ class BlocListenersHomeWidget extends StatelessWidget with HomeMixin {
             if (state.status == StatusEnum.success) {
               Navigator.pop(context);
               showSnackbarWithMessageSuccess(context);
+              getAllPomodoroBloc.add(
+                GetAllPomodoro(userId: session.userEntity!.id.toString()),
+              );
             }
 
             if (state.status == StatusEnum.error) {
