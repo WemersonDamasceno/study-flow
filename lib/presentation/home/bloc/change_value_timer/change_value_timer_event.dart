@@ -2,9 +2,6 @@ part of 'change_value_timer_bloc.dart';
 
 sealed class ChangeValueTimerEvent extends Equatable {
   const ChangeValueTimerEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class ChangeValueTimerEventIncrement extends ChangeValueTimerEvent {
@@ -13,4 +10,7 @@ class ChangeValueTimerEventIncrement extends ChangeValueTimerEvent {
   const ChangeValueTimerEventIncrement({
     required this.value,
   });
+
+  @override
+  List<Object?> get props => [value];
 }
