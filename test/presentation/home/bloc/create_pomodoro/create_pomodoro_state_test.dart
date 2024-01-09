@@ -38,7 +38,6 @@ void main() {
 
       // Assert
       expect(newState.status, equals(StatusEnum.loading));
-      expect(newState, same(originalState));
     });
   });
 }

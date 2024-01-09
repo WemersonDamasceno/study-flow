@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:study_flow/core/errors/failure.dart';
 import 'package:study_flow/core/usecase/usecases.dart';
@@ -22,8 +23,11 @@ class GetAllPomodoroUsecase
   }
 }
 
-class GetAllPomodoroUsecaseParams {
+class GetAllPomodoroUsecaseParams extends Equatable {
   final String userId;
 
-  GetAllPomodoroUsecaseParams({required this.userId});
+  const GetAllPomodoroUsecaseParams({required this.userId});
+
+  @override
+  List<Object?> get props => [userId];
 }
