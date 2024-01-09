@@ -27,7 +27,7 @@ class AppBarHomeWidget extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Text(
-          "Olá, $firstNameUser",
+          "Olá, $firstNameUser!",
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
