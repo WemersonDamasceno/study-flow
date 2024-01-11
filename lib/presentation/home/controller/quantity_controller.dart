@@ -5,9 +5,9 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class QuantityController extends ChangeNotifier {
-  int _quantity = 0;
+  int _quantity = 1;
   late Timer _timer;
-  final _quantityController = TextEditingController(text: '0');
+  final _quantityController = TextEditingController(text: '1');
 
   late BuildContext _context;
 

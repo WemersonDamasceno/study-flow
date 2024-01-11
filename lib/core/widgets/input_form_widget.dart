@@ -5,9 +5,11 @@ class InputFormWidget extends StatelessWidget {
   final String label;
   final String hintText;
   final TextEditingController controller;
+  final FontWeight? fontWeight;
 
   const InputFormWidget({
     Key? key,
+    this.fontWeight,
     required this.label,
     required this.hintText,
     required this.controller,
@@ -23,7 +25,7 @@ class InputFormWidget extends StatelessWidget {
             style: TextStyle(
               color: StudyFlowColors.secondary,
               fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontWeight: fontWeight ?? FontWeight.bold,
             ),
           ),
           const SizedBox(height: 10),

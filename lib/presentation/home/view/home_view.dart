@@ -5,7 +5,6 @@ import 'package:study_flow/core/session/session.dart';
 import 'package:study_flow/di/di.dart';
 import 'package:study_flow/presentation/home/bloc/bloc/manager_button_main_bloc.dart';
 import 'package:study_flow/presentation/home/bloc/change_value_timer/change_value_timer_bloc.dart';
-import 'package:study_flow/presentation/home/bloc/create_pomodoro/create_pomodoro_bloc.dart';
 import 'package:study_flow/presentation/home/bloc/get_all_pomodoro/get_all_pomodoro_bloc.dart';
 import 'package:study_flow/presentation/home/bloc/get_token/get_token_bloc.dart';
 import 'package:study_flow/presentation/home/bloc/get_user/get_user_bloc.dart';
@@ -27,7 +26,6 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
   late QuantityController _quantityController;
 
   late ChangeValueTimerBloc _changeValueTimerBloc;
-  late CreatePomodoroBloc _createPomodoroBloc;
   late GetAllPomodoroBloc _getAllPomodoroBloc;
   late GetUserBloc _getUserBloc;
   late GetTokenBloc _getTokenBloc;
@@ -45,7 +43,6 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
 
     _managerButtonMainBloc = BlocProvider.of<ManagerButtonMainBloc>(context);
     _changeValueTimerBloc = BlocProvider.of<ChangeValueTimerBloc>(context);
-    _createPomodoroBloc = BlocProvider.of<CreatePomodoroBloc>(context);
     _getAllPomodoroBloc = BlocProvider.of<GetAllPomodoroBloc>(context);
     _getTokenBloc = BlocProvider.of<GetTokenBloc>(context);
     _getUserBloc = BlocProvider.of<GetUserBloc>(context);
@@ -64,7 +61,6 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListenersHomeWidget(
-        createPomodoroBloc: _createPomodoroBloc,
         getAllPomodoroBloc: _getAllPomodoroBloc,
         getTokenBloc: _getTokenBloc,
         getUserBloc: _getUserBloc,
@@ -80,8 +76,6 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
 
             if (state.status == StatusEnum.empty) {
               return HomeEmptyWidget(
-                changeValueTimerBloc: _changeValueTimerBloc,
-                createPomodoroBloc: _createPomodoroBloc,
                 namePomodoroController: _namePomodoroController,
                 quantityController: _quantityController,
                 session: _session,
@@ -93,7 +87,6 @@ class _HomeViewState extends State<HomeView> with HomeMixin {
                 namePomodoroController: _namePomodoroController,
                 managerButtonMainBloc: _managerButtonMainBloc,
                 changeValueTimerBloc: _changeValueTimerBloc,
-                createPomodoroBloc: _createPomodoroBloc,
                 quantityController: _quantityController,
                 pomodoroEntity: state.pomodoros!.last,
                 session: _session,

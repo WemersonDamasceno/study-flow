@@ -1,2 +1,2 @@
 CREATE TABLE IF NOT EXISTS user(id INTEGER PRIMARY KEY, nameUser TEXT);
-CREATE TABLE IF NOT EXISTS pomodoro(id INTEGER PRIMARY KEY, user_id INTEGER, title TEXT, priority TEXT, quantity_repeat INTEGER, FOREIGN KEY(user_id) REFERENCES user(id));
+CREATE TABLE IF NOT EXISTS pomodoro(id INTEGER PRIMARY KEY, user_id INTEGER, title TEXT, priority TEXT, quantity_repeat INTEGER,  time_of_repeat INTEGER, FOREIGN KEY(user_id) REFERENCES user(id));

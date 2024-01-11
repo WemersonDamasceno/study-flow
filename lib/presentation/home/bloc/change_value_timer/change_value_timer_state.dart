@@ -1,14 +1,14 @@
 part of 'change_value_timer_bloc.dart';
 
 class ChangeValueTimerState extends Equatable {
-  final double value;
+  final int value;
 
   const ChangeValueTimerState({
     this.value = 0,
   });
 
   ChangeValueTimerState copyWith({
-    double? value,
+    int? value,
   }) {
     return ChangeValueTimerState(
       value: value ?? this.value,

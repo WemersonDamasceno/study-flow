@@ -10,6 +10,7 @@ void main() {
       userId: 1,
       quantityRepeat: 5,
       title: "Teste 01",
+      timeOfRepeat: 0,
     );
 
     const pomodoro2 = PomodoroEntity(
@@ -18,6 +19,7 @@ void main() {
       userId: 2,
       quantityRepeat: 5,
       title: "Teste 02",
+      timeOfRepeat: 0,
     );
 
     test('supports pomodoroEntity comparison', () {

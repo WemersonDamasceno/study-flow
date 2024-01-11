@@ -1,12 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:study_flow/core/icons/study_flow_icons.dart';
+import 'package:study_flow/core/routers/study_flow_routers.dart';
 import 'package:study_flow/core/session/session.dart';
 import 'package:study_flow/core/utils/get_first_name.dart';
 import 'package:study_flow/core/utils/get_initials_name.dart';
 import 'package:study_flow/core/widgets/buttons/widgets/button_main_widget.dart';
-import 'package:study_flow/presentation/home/bloc/change_value_timer/change_value_timer_bloc.dart';
-import 'package:study_flow/presentation/home/bloc/create_pomodoro/create_pomodoro_bloc.dart';
 import 'package:study_flow/presentation/home/controller/quantity_controller.dart';
 import 'package:study_flow/presentation/home/mixin/home_mixin.dart';
 import 'package:study_flow/presentation/home/widget/app_bar_home_widget.dart';
@@ -15,17 +16,13 @@ import 'package:study_flow/presentation/home/widget/head_home_widget.dart';
 class HomeEmptyWidget extends StatelessWidget with HomeMixin {
   final TextEditingController namePomodoroController;
   final QuantityController quantityController;
-  final CreatePomodoroBloc createPomodoroBloc;
-  final ChangeValueTimerBloc changeValueTimerBloc;
   final Session session;
 
   const HomeEmptyWidget({
     Key? key,
     required this.namePomodoroController,
     required this.quantityController,
-    required this.createPomodoroBloc,
     required this.session,
-    required this.changeValueTimerBloc,
   }) : super(key: key);
 
   @override
@@ -40,7 +37,6 @@ class HomeEmptyWidget extends StatelessWidget with HomeMixin {
             children: [
               HeadHomeWidget(
                 percent: 0,
-                changeValueTimerBloc: changeValueTimerBloc,
                 appBarHomeWidget: AppBarHomeWidget(
                   firstNameUser: getFirstName(session.userEntity!.nameUser),
                   initialsNameUser: getInitialName(
@@ -69,14 +65,13 @@ class HomeEmptyWidget extends StatelessWidget with HomeMixin {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ButtonMainWidget(
                   child: const Text("Adicionar Pomodoro"),
-                  onPressed: () {
-                    showBottomSheetAddPomodoro(
-                      context: context,
-                      size: size,
-                      controller: namePomodoroController,
-                      quantityController: quantityController,
-                      createPomodoroBloc: createPomodoroBloc,
+                  onPressed: () async {
+                    final updateList = await Navigator.pushNamed(
+                      context,
+                      StudyFlowRouters.addPomodoro,
                     );
+
+                    log(updateList.toString());
                   },
                 ),
               ),

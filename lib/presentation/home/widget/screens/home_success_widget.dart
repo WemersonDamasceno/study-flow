@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:study_flow/core/colors/study_flow_colors.dart';
+import 'package:study_flow/core/routers/study_flow_routers.dart';
 import 'package:study_flow/core/session/session.dart';
 import 'package:study_flow/core/sounds/study_flow_sounds.dart';
 import 'package:study_flow/core/utils/get_first_name.dart';
@@ -13,7 +14,6 @@ import 'package:study_flow/core/widgets/text_with_border_widget.dart';
 import 'package:study_flow/domain/entities/pomodoro_entity.dart';
 import 'package:study_flow/presentation/home/bloc/bloc/manager_button_main_bloc.dart';
 import 'package:study_flow/presentation/home/bloc/change_value_timer/change_value_timer_bloc.dart';
-import 'package:study_flow/presentation/home/bloc/create_pomodoro/create_pomodoro_bloc.dart';
 import 'package:study_flow/presentation/home/controller/quantity_controller.dart';
 import 'package:study_flow/presentation/home/mixin/home_mixin.dart';
 import 'package:study_flow/presentation/home/widget/app_bar_home_widget.dart';
@@ -23,7 +23,6 @@ import 'package:study_flow/presentation/home/widget/head_home_widget.dart';
 class HomeSuccessWidget extends StatefulWidget {
   final TextEditingController namePomodoroController;
   final QuantityController quantityController;
-  final CreatePomodoroBloc createPomodoroBloc;
   final PomodoroEntity pomodoroEntity;
   final ChangeValueTimerBloc changeValueTimerBloc;
   final ManagerButtonMainBloc managerButtonMainBloc;
@@ -35,7 +34,6 @@ class HomeSuccessWidget extends StatefulWidget {
     required this.managerButtonMainBloc,
     required this.changeValueTimerBloc,
     required this.quantityController,
-    required this.createPomodoroBloc,
     required this.pomodoroEntity,
     required this.session,
   }) : super(key: key);
@@ -45,7 +43,7 @@ class HomeSuccessWidget extends StatefulWidget {
 }
 
 class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
-  int _timerTotal = 0;
+  double _timerTotal = 0;
   int qtdRepeat = 0;
   bool isShortBreak = false;
   String subTitle = "";
@@ -60,11 +58,11 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
     super.initState();
 
     _player = AudioPlayer();
-    _timerTotal = convertNumberInMinutes(1);
+    _timerTotal = convertSecondsInMinutes(widget.pomodoroEntity.timeOfRepeat);
 
     widget.changeValueTimerBloc.add(
       ChangeValueTimerEventIncrement(
-        value: _timerTotal,
+        value: _timerTotal.toInt(),
       ),
     );
 
@@ -88,9 +86,21 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
                   BlocBuilder<ChangeValueTimerBloc, ChangeValueTimerState>(
                     bloc: widget.changeValueTimerBloc,
                     builder: (context, state) {
+                      double percent = 0;
+                      double valorA = state.value.toDouble();
+                      double valorB = convertSecondsInMinutes(
+                          widget.pomodoroEntity.timeOfRepeat);
+                      if (state.value == 0) {
+                        percent = 1;
+                      } else {
+                        percent = calcularPorcentagem(
+                          valorB,
+                          valorA,
+                        );
+                      }
+
                       return HeadHomeWidget(
-                        percent: state.value,
-                        changeValueTimerBloc: widget.changeValueTimerBloc,
+                        percent: percent,
                         appBarHomeWidget: AppBarHomeWidget(
                           firstNameUser:
                               getFirstName(widget.session.userEntity!.nameUser),
@@ -102,7 +112,7 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              formatedTime(_timerTotal),
+                              formatedTime(_timerTotal.round()),
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
@@ -182,7 +192,7 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextWithBorderWidget(
-                        radius: 7,
+                        radius: 100,
                         child: Text(
                           widget.pomodoroEntity.title,
                           style: TextStyle(
@@ -214,12 +224,9 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
                 right: 20,
                 child: FloatingActionButton(
                   onPressed: () {
-                    showBottomSheetAddPomodoro(
-                      context: context,
-                      size: size,
-                      controller: widget.namePomodoroController,
-                      quantityController: widget.quantityController,
-                      createPomodoroBloc: widget.createPomodoroBloc,
+                    Navigator.pushNamed(
+                      context,
+                      StudyFlowRouters.addPomodoro,
                     );
                   },
                   backgroundColor: StudyFlowColors.secondary,
@@ -262,39 +269,30 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
 
       if (_timerTotal > 0) {
         _timerTotal--;
+
         widget.changeValueTimerBloc.add(
           ChangeValueTimerEventIncrement(
-            value: _timerTotal,
+            value: _timerTotal.toInt(),
           ),
         );
       } else {
         timer.cancel();
 
-        _player.play(
+        _player
+            .play(
           AssetSource(StudyFlowSounds.alarm),
           volume: 1,
-        );
-
-        if (isShortBreak) {
-          buttonState = ButtonState.endBreak;
-          isShortBreak = false;
-          setState(() {
-            _timerTotal = convertNumberInMinutes(1);
-            subTitle =
-                "$qtdRepeat/${widget.pomodoroEntity.quantityRepeat} repetições";
-          });
-
-          widget.managerButtonMainBloc.add(
-            ManagerButtonMain(
-              buttonState: buttonState,
-              isShotBreak: isShortBreak,
-            ),
-          );
-        } else {
-          setState(() {
-            qtdRepeat++;
-            isShortBreak = true;
-            buttonState = ButtonState.end;
+        )
+            .whenComplete(() {
+          if (isShortBreak) {
+            buttonState = ButtonState.endBreak;
+            isShortBreak = false;
+            setState(() {
+              _timerTotal =
+                  convertSecondsInMinutes(widget.pomodoroEntity.timeOfRepeat);
+              subTitle =
+                  "$qtdRepeat/${widget.pomodoroEntity.quantityRepeat} repetições";
+            });
 
             widget.managerButtonMainBloc.add(
               ManagerButtonMain(
@@ -302,11 +300,30 @@ class _HomeSuccessWidgetState extends State<HomeSuccessWidget> with HomeMixin {
                 isShotBreak: isShortBreak,
               ),
             );
-            _timerTotal = convertNumberInMinutes(1);
-            subTitle = "Pausa curta";
-          });
-        }
+          } else {
+            setState(() {
+              qtdRepeat++;
+              isShortBreak = true;
+              buttonState = ButtonState.end;
+
+              widget.managerButtonMainBloc.add(
+                ManagerButtonMain(
+                  buttonState: buttonState,
+                  isShotBreak: isShortBreak,
+                ),
+              );
+              _timerTotal =
+                  convertSecondsInMinutes(widget.pomodoroEntity.timeOfRepeat) /
+                      4;
+              subTitle = "Pausa curta";
+            });
+          }
+        });
       }
     });
+  }
+
+  convertValueInPercent(double percent, double value) {
+    return percent * value;
   }
 }

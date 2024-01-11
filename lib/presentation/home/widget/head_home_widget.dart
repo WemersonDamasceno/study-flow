@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:study_flow/core/colors/study_flow_colors.dart';
-import 'package:study_flow/presentation/home/bloc/change_value_timer/change_value_timer_bloc.dart';
 
 class HeadHomeWidget extends StatelessWidget {
-  final ChangeValueTimerBloc changeValueTimerBloc;
   final Widget appBarHomeWidget;
   final Widget child;
   final double percent;
 
   const HeadHomeWidget({
     Key? key,
-    required this.changeValueTimerBloc,
     required this.appBarHomeWidget,
     required this.child,
     required this.percent,

@@ -39,7 +39,7 @@ class SnackBarWidget {
         backgroundColor: snackbarBackgroundColor,
         margin: const EdgeInsets.only(
           left: 20,
-          right: 20,
+          right: 10,
           bottom: 20,
         ),
         duration: const Duration(seconds: 5),
@@ -65,7 +65,7 @@ class SnackBarWidget {
                 ),
               ),
               SizedBox(
-                width: 100,
+                width: 95,
                 child: ButtonMainWidget(
                   onPressed: buttonCallback,
                   backgroundColor: buttonBackgroundColor,
@@ -73,7 +73,7 @@ class SnackBarWidget {
                     labelButton,
                     style: TextStyle(
                       color: buttonFontColor,
-                      fontSize: 14,
+                      fontSize: 15,
                     ),
                   ),
                 ),

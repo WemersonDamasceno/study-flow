@@ -23,6 +23,7 @@ void main() {
     priority: "low",
     quantityRepeat: 4,
     userId: 1,
+    timeOfRepeat: 0,
   );
   setUp(() {
     mockSavePomodoroUsecase = MockSavePomodoroUsecase();

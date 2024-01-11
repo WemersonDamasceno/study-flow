@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:study_flow/core/colors/study_flow_colors.dart';
-import 'package:study_flow/core/widgets/snackbar_widget.dart';
 import 'package:study_flow/di/di.dart';
 import 'package:study_flow/presentation/home/bloc/bloc/manager_button_main_bloc.dart';
 import 'package:study_flow/presentation/home/bloc/create_pomodoro/create_pomodoro_bloc.dart';
@@ -44,38 +42,6 @@ mixin HomeMixin {
     );
   }
 
-  showSnackbarWithMessageSuccess(BuildContext context) {
-    return SnackBarWidget(
-      context: context,
-      snackbarIcon: Icons.check_circle,
-      labelSnackbar: "A atividade foi adicionada!",
-      labelButton: "Fechar",
-      snackbarBackgroundColor: StudyFlowColors.successPure,
-      snackbarFontColor: Colors.white,
-      buttonBackgroundColor: StudyFlowColors.successLight,
-      buttonFontColor: Colors.white,
-      buttonCallback: () {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      },
-    ).show();
-  }
-
-  showSnackbarWithMessageError(BuildContext context) {
-    return SnackBarWidget(
-      context: context,
-      snackbarIcon: Icons.error,
-      labelSnackbar: "Ops! Ocorreu um erro.",
-      labelButton: "Fechar",
-      snackbarBackgroundColor: StudyFlowColors.errorPure,
-      snackbarFontColor: Colors.white,
-      buttonBackgroundColor: StudyFlowColors.errorLight,
-      buttonFontColor: Colors.white,
-      buttonCallback: () {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      },
-    ).show();
-  }
-
   String getButtonText(ButtonState buttonState) {
     switch (buttonState) {
       case ButtonState.init:
@@ -95,12 +61,15 @@ mixin HomeMixin {
     }
   }
 
-  //Convert value in minutes
-  int convertNumberInMinutes(int seconds) {
-    return seconds * 60;
-  }
-
   String formatedTime(int time) {
     return "${(time ~/ 60).toString().padLeft(2, '0')}:${(time % 60).toString().padLeft(2, '0')}";
+  }
+
+  double calcularPorcentagem(double valorA, double valorB) {
+    return (valorB / valorA);
+  }
+
+  double convertSecondsInMinutes(int seconds) {
+    return (seconds * 60);
   }
 }

@@ -161,6 +161,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                 pomodoroEntity: PomodoroEntity(
                   userId: _session.userEntity?.id ?? 1,
                   title: widget.titleController.text,
+                  timeOfRepeat: 0,
                   quantityRepeat: widget.quantityController.quantity,
                   priority: tagPriorityEnum.label,
                 ),

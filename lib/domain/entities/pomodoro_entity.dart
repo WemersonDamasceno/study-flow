@@ -6,6 +6,7 @@ class PomodoroEntity extends Equatable {
   final String title;
   final String priority;
   final int quantityRepeat;
+  final int timeOfRepeat;
 
   const PomodoroEntity({
     this.id,
@@ -13,6 +14,7 @@ class PomodoroEntity extends Equatable {
     required this.title,
     required this.priority,
     required this.quantityRepeat,
+    required this.timeOfRepeat,
   });
 
   PomodoroEntity copyWith({
@@ -21,11 +23,13 @@ class PomodoroEntity extends Equatable {
     String? priority,
     int? quantityRepeat,
     int? userId,
+    int? timeOfRepeat,
   }) {
     return PomodoroEntity(
       id: id ?? this.id,
       userId: userId ?? this.userId,
       title: title ?? this.title,
+      timeOfRepeat: timeOfRepeat ?? this.timeOfRepeat,
       priority: priority ?? this.priority,
       quantityRepeat: quantityRepeat ?? this.quantityRepeat,
     );

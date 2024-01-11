@@ -5,9 +5,9 @@ void main() {
   group('ChangeValueTimerState', () {
     test('supports value comparison', () {
       // Arrange
-      const state1 = ChangeValueTimerState(value: 10.0);
-      const state2 = ChangeValueTimerState(value: 10.0);
-      const state3 = ChangeValueTimerState(value: 20.0);
+      const state1 = ChangeValueTimerState(value: 10);
+      const state2 = ChangeValueTimerState(value: 10);
+      const state3 = ChangeValueTimerState(value: 20);
 
       // Act & Assert
       expect(state1, equals(state2)); // Teste de igualdade
@@ -16,10 +16,10 @@ void main() {
 
     test('copyWith creates a new instance with the provided value', () {
       // Arrange
-      const originalState = ChangeValueTimerState(value: 15.0);
+      const originalState = ChangeValueTimerState(value: 15);
 
       // Act
-      final newState = originalState.copyWith(value: 30.0);
+      final newState = originalState.copyWith(value: 30);
 
       // Assert
       expect(newState.value, equals(30.0));
@@ -31,7 +31,7 @@ void main() {
         'copyWith creates an instance with the same value if no new value is provided',
         () {
       // Arrange
-      const originalState = ChangeValueTimerState(value: 25.0);
+      const originalState = ChangeValueTimerState(value: 25);
 
       // Act
       final newState = originalState.copyWith();

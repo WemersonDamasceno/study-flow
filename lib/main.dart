@@ -3,6 +3,7 @@ import 'package:study_flow/core/colors/study_flow_colors.dart';
 import 'package:study_flow/core/database_helper/database_helper.dart';
 import 'package:study_flow/core/routers/study_flow_routers.dart';
 import 'package:study_flow/di/di.dart';
+import 'package:study_flow/presentation/add_pomodoro/view/add_pomodoro_page.dart';
 import 'package:study_flow/presentation/create_account/view/create_account_page.dart';
 import 'package:study_flow/presentation/home/view/home_page.dart';
 import 'package:study_flow/presentation/splash/splash_imports.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       routes: {
         StudyFlowRouters.createAccount: (context) => const CreateAccountPage(),
         StudyFlowRouters.home: (context) => const HomePage(),
+        StudyFlowRouters.addPomodoro: (context) => const AddPomodoroPage(),
       },
     );
   }

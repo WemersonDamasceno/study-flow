@@ -16,6 +16,6 @@ class ChangeValueTimerBloc
     ChangeValueTimerEventIncrement event,
     Emitter<ChangeValueTimerState> emit,
   ) {
-    emit(state.copyWith(value: event.value / 60));
+    emit(state.copyWith(value: event.value));
   }
 }

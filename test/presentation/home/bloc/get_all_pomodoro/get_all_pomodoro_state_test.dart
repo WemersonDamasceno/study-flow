@@ -10,6 +10,7 @@ void main() {
     priority: "low",
     quantityRepeat: 4,
     userId: 1,
+    timeOfRepeat: 0,
   );
   group('GetAllPomodoroState', () {
     test('supports status and pomodoros comparison', () {
