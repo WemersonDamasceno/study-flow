@@ -1,9 +1,11 @@
 import 'package:injectable/injectable.dart';
+import 'package:study_flow/domain/entities/pomodoro_entity.dart';
 import 'package:study_flow/domain/entities/user_entity.dart';
 
 @singleton
 class Session {
   UserEntity? userEntity;
+  PomodoroEntity? currentPomodoro;
 
   static final Session _instance = Session._internal();
 
@@ -15,5 +17,6 @@ class Session {
 
   dispose() {
     userEntity = null;
+    currentPomodoro = null;
   }
 }

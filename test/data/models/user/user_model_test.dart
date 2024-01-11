@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('UserModel', () {
-    const String userId = '1';
+    const int userId = 1;
     const String userName = 'John Doe';
 
     test('should create a UserModel instance', () {

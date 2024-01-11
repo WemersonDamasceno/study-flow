@@ -4,10 +4,14 @@ import 'package:study_flow/core/colors/study_flow_colors.dart';
 
 class HeadHomeWidget extends StatelessWidget {
   final Widget appBarHomeWidget;
+  final Widget child;
+  final double percent;
 
   const HeadHomeWidget({
     Key? key,
     required this.appBarHomeWidget,
+    required this.child,
+    required this.percent,
   }) : super(key: key);
 
   @override
@@ -62,28 +66,8 @@ class HeadHomeWidget extends StatelessWidget {
                 child: CircularPercentIndicator(
                   radius: 72,
                   lineWidth: 8,
-                  percent: 0.55,
-                  center: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "15:30",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: StudyFlowColors.secondary,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "1/5 repetições",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: StudyFlowColors.secondary,
-                        ),
-                      ),
-                    ],
-                  ),
+                  percent: percent,
+                  center: child,
                   backgroundColor: StudyFlowColors.primary,
                   progressColor: StudyFlowColors.secondary,
                 ),

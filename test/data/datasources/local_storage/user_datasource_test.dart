@@ -35,7 +35,7 @@ void main() {
       final result = await sqliteDatasource.createUser(user: userModel);
 
       //Assert
-      expect(result, equals(userModel.copy(id: '1')));
+      expect(result, equals(userModel.copy(id: 1)));
     });
     test('updateUser should update user in the database', () async {
       // Arrange
@@ -49,7 +49,7 @@ void main() {
       final result = await sqliteDatasource.updateUser(user: userModel);
 
       // Assert
-      expect(result, equals(userModel.copy(id: '1')));
+      expect(result, equals(userModel.copy(id: 1)));
     });
 
     test('deleteUser should delete user from the database', () async {

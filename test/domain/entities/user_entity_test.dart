@@ -2,7 +2,7 @@ import 'package:study_flow/domain/entities/user_entity.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const String userId = '1';
+  const int userId = 1;
   const String userName = 'John Doe';
 
   group('UserEntity', () {
